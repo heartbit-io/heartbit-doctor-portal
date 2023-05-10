@@ -34,7 +34,11 @@ function TopBar() {
   };
 
   return (
-    <AppBar position="static" sx={{ background: "#fff", padding: "0 40px" }}>
+    <AppBar
+      position="static"
+      elevation={0}
+      sx={{ background: "#fff", padding: "0 40px" }}
+    >
       <Toolbar disableGutters>
         <img src="img/logo.png" />
 
