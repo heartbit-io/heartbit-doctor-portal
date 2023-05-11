@@ -1,14 +1,21 @@
 "use client";
 
-import {
-  Box,
-  Button,
-  Container,
-  Divider,
-  Stack,
-  Typography,
-} from "@mui/material";
-import { TopBar } from "`@/components`";
+import { Box, Container, Divider, Typography } from "@mui/material";
+import { DoubleButton, PatientInfo, TopBar } from "`@/components`";
+
+const body = [
+  {
+    title: "Question",
+    description: `I have early cataracts. I've been taking MTX steroid 1.5 tablets for 2 weeks now for arthritis, is it okay to take it? \nI'm scared because my eyes feel like they've gotten worse.`,
+  },
+  {
+    title: "Chief Complaint",
+    description: `* Early cataracts \n* Concerns about methotrexate (MTX) steroid (1.5 tablets for 2 weeks) for arthritis \n* Fear of worsening eye condition`,
+  },
+  {
+    title: " Medical History",
+  },
+];
 
 export default function Home() {
   return (
@@ -19,72 +26,38 @@ export default function Home() {
           Cataracts and Methotrexate Concerns
         </Typography>
         <Box sx={{ background: "#fff" }} p={5}>
+          <DoubleButton />
+          <Divider />
           <Box
             display={"flex"}
             flexDirection={"row"}
-            alignItems={"center"}
             justifyContent={"space-between"}
-            mb={4}
           >
-            <Stack spacing={5} direction="row">
-              <Stack spacing={1} direction="row">
-                <Typography sx={{ fontWeight: "bold" }}>Bounty:</Typography>
-                <Typography>1,000sats</Typography>
-              </Stack>
-              <Stack spacing={1} direction="row">
-                <Typography sx={{ fontWeight: "bold" }}>Date:</Typography>
-                <Typography>10:49AM, 9th Mar 2023</Typography>
-              </Stack>
-            </Stack>
-            <Stack spacing={1} direction="row">
-              <Button
-                variant="text"
-                size="large"
-                sx={{ color: "#3A3A3C", padding: "8px 60px" }}
-              >
-                Pass
-              </Button>
-              <Button
-                variant="contained"
-                size="large"
-                style={{ backgroundColor: "#34C759", padding: "8px 60px" }}
-              >
-                Take
-              </Button>
-            </Stack>
+            <Box flex={1}>
+              {body.map((el, index) => (
+                <Box>
+                  <Box
+                    mt={4}
+                    mb={4}
+                    sx={{ opacity: index + 1 == body.length ? 0.3 : 1 }}
+                  >
+                    <Typography sx={{ fontWeight: "bold" }} mb={3}>
+                      {el.title}
+                    </Typography>
+                    <Typography whiteSpace={"break-spaces"}>
+                      {el.description}
+                    </Typography>
+                  </Box>
+                  <Divider />
+                </Box>
+              ))}
+            </Box>
+            <PatientInfo />
           </Box>
-          <Divider />
-          <Box>
-            <Box mt={4} mb={4}>
-              <Typography sx={{ fontWeight: "bold" }} mb={3}>
-                Question
-              </Typography>
-              <Typography>
-                I have early cataracts. I've been taking MTX steroid 1.5 tablets
-                for 2 weeks now for arthritis, is it okay to take it? I'm scared
-                because my eyes feel like they've gotten worse.
-              </Typography>
-            </Box>
-            <Divider />
-            <Box mt={4} mb={4}>
-              <Typography sx={{ fontWeight: "bold" }} mb={3}>
-                Chief Complaint
-              </Typography>
-              <Typography>
-                Early cataracts Concerns about methotrexate (MTX) steroid (1.5
-                tablets for 2 weeks) for arthritis Fear of worsening eye
-                condition
-              </Typography>
-            </Box>
-            <Divider />
-            <Box mt={4} mb={4}>
-              <Typography sx={{ fontWeight: "bold", opacity: 0.3 }}>
-                Medical History
-              </Typography>
-            </Box>
-            <Divider />
-          </Box>
-          <Box></Box>
+          <Typography variant="h5" textAlign={"center"} color={"#F68F2A"}>
+            You can see the full information if you take this question to leave
+            an answer.
+          </Typography>
         </Box>
       </Container>
     </Box>

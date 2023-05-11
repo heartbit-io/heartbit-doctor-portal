@@ -57,6 +57,7 @@ function TopBar() {
                 my: 2,
                 color: "#3A3A3C",
                 display: "block",
+                fontWeight: "bold",
               }}
             >
               {page}
