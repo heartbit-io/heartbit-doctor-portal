@@ -26,7 +26,15 @@ export default function Home() {
           Cataracts and Methotrexate Concerns
         </Typography>
         <Box sx={{ background: "#fff" }} p={5}>
-          <DoubleButton />
+          <DoubleButton
+            bounty={"1,000"}
+            date={"10:49AM, 9th Mar 2023"}
+            cancelBtn={{ text: "Cancel", onClick: () => {} }}
+            confirmBtn={{
+              text: "Confirm",
+              onClick: () => {},
+            }}
+          />
           <Divider />
           <Box
             display={"flex"}
