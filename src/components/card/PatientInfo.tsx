@@ -41,7 +41,7 @@ const PatientInfo = () => {
       p={2}
       pb={0}
       borderRadius={2}
-      width={298}
+      sx={{ blockSize: "fit-content" }}
     >
       <Typography
         variant="caption"
@@ -57,7 +57,7 @@ const PatientInfo = () => {
             mb={2}
             mt={2}
           >
-            <Typography>{el.key}</Typography>
+            <Typography mr={15}>{el.key}</Typography>
             <Typography sx={{ fontWeight: "bold" }}>{el.value}</Typography>
           </Stack>
           {patientInfo.length !== index + 1 && <Divider />}
