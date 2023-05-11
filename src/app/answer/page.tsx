@@ -1,5 +1,4 @@
 "use client";
-
 import { Box, Container, Divider, Typography } from "@mui/material";
 import { DoubleButton, PatientInfo, NavBar } from "`@/components`";
 
@@ -17,7 +16,7 @@ const body = [
   },
 ];
 
-export default function Home() {
+export default function Page() {
   return (
     <Box>
       <NavBar />

@@ -13,7 +13,7 @@ import MenuItem from "@mui/material/MenuItem";
 const pages = ["Take Questions", "My Answers"];
 const settings = ["Sign-out"];
 
-function TopBar() {
+function NavBar() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -108,4 +108,4 @@ function TopBar() {
     </AppBar>
   );
 }
-export default TopBar;
+export default NavBar;
