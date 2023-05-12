@@ -5,7 +5,6 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
-import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
@@ -40,7 +39,7 @@ function NavBar() {
       sx={{ background: "#fff", padding: "0 40px" }}
     >
       <Toolbar disableGutters>
-        <img src="img/logo.png" />
+        <img src="img/logo.svg" />
 
         <Box
           sx={{
