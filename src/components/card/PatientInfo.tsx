@@ -50,7 +50,7 @@ const PatientInfo = () => {
         Basic information of the patient
       </Typography>
       {patientInfo.map((el, index) => (
-        <Box>
+        <Box key={el.key}>
           <Stack
             direction={"row"}
             justifyContent={"space-between"}

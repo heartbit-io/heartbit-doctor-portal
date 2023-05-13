@@ -2,6 +2,9 @@
 
 import { Box, Container, Divider, Typography } from "@mui/material";
 import { DoubleButton, PatientInfo, NavBar } from "`@/components`";
+import { useEffect, useState } from "react";
+
+import { getQuestion } from "`@/apis/questionApi`";
 
 const body = [
   {
@@ -18,20 +21,36 @@ const body = [
 ];
 
 export default function Page() {
+  const [question, setQuestion] = useState<any>();
+  const [err, setErr] = useState();
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setLoading(true);
+    getQuestion()
+      .then((res) => {
+        if (res.success && res.statusCode === 200) {
+          setQuestion(res.data);
+        }
+      })
+      .catch((err) => setErr(err))
+      .finally(() => setLoading(false));
+  }, []);
+
   return (
     <Box>
       <NavBar />
       <Container maxWidth={false}>
         <Typography variant="h3" mt={5} mb={5} sx={{ fontWeight: "bold" }}>
-          Cataracts and Methotrexate Concerns
+          {question?.title}
         </Typography>
         <Box sx={{ background: "#fff" }} p={5}>
           <DoubleButton
-            bounty={"1,000"}
-            date={"10:49AM, 9th Mar 2023"}
-            cancelBtn={{ text: "Cancel", onClick: () => {} }}
+            bounty={question?.bountyAmount}
+            date={question?.createdAt}
+            cancelBtn={{ text: "Pass", onClick: () => {} }}
             confirmBtn={{
-              text: "Confirm",
+              text: "Take",
               onClick: () => {},
             }}
           />
@@ -42,27 +61,47 @@ export default function Page() {
             justifyContent={"space-between"}
           >
             <Box flex={1}>
-              {body.map((el, index) => (
-                <Box>
-                  <Box
-                    mt={4}
-                    mb={4}
-                    sx={{ opacity: index + 1 == body.length ? 0.3 : 1 }}
-                  >
-                    <Typography sx={{ fontWeight: "bold" }} mb={3}>
-                      {el.title}
-                    </Typography>
-                    <Typography whiteSpace={"break-spaces"}>
-                      {el.description}
-                    </Typography>
-                  </Box>
-                  <Divider />
+              <Box>
+                <Box mt={4} mb={4}>
+                  <Typography sx={{ fontWeight: "bold" }} mb={3}>
+                    Question
+                  </Typography>
+                  <Typography whiteSpace={"break-spaces"}>
+                    {question?.content}
+                  </Typography>
                 </Box>
-              ))}
+                <Divider />
+              </Box>
+
+              <Box>
+                <Box mt={4} mb={4}>
+                  <Typography sx={{ fontWeight: "bold" }} mb={3}>
+                    Chief Complaint
+                  </Typography>
+                  <Typography whiteSpace={"break-spaces"}>
+                    {question?.chiefComplaint}
+                  </Typography>
+                </Box>
+                <Divider />
+              </Box>
+
+              <Box>
+                <Box mt={4} mb={4} sx={{ opacity: 0.3 }}>
+                  <Typography sx={{ fontWeight: "bold" }} mb={3}>
+                    Medical History
+                  </Typography>
+                </Box>
+                <Divider />
+              </Box>
             </Box>
             <PatientInfo />
           </Box>
-          <Typography variant="h5" textAlign={"center"} color={"#F68F2A"}>
+          <Typography
+            variant="h5"
+            textAlign={"center"}
+            color={"#F68F2A"}
+            pt={4}
+          >
             You can see the full information if you take this question to leave
             an answer.
           </Typography>
