@@ -1,7 +1,7 @@
 "use client";
 
 import { Box, Container, Divider, Typography } from "@mui/material";
-import { DoubleButton, PatientInfo, NavBar } from "`@/components`";
+import { DoubleButton, PatientInfo, NavBar, Loading } from "`@/components`";
 import { useEffect, useState } from "react";
 
 import { getQuestion } from "`@/apis/questionApi`";
@@ -23,10 +23,9 @@ const body = [
 export default function Page() {
   const [question, setQuestion] = useState<any>();
   const [err, setErr] = useState();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setLoading(true);
     getQuestion()
       .then((res) => {
         if (res.success && res.statusCode === 200) {
@@ -36,6 +35,8 @@ export default function Page() {
       .catch((err) => setErr(err))
       .finally(() => setLoading(false));
   }, []);
+
+  if (loading) return <Loading />;
 
   return (
     <Box>
