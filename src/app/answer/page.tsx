@@ -1,12 +1,18 @@
 "use client";
 import { Box, Container, Divider, Stack, Typography } from "@mui/material";
 import { getQuestionDetails } from "`@/apis/questionApi`";
-import { DoubleButton, PatientInfo, NavBar, AnswerInput } from "`@/components`";
+import {
+  DoubleButton,
+  PatientInfo,
+  NavBar,
+  AnswerInput,
+  Loading,
+} from "`@/components`";
 import { useEffect, useState } from "react";
 
 export default function Page(props: any) {
   const { questionId } = props.searchParams;
-
+  const [loading, setLoading] = useState(true);
   const [question, setQuestion] = useState<any>();
   const [chiefComplaint, setChiefComplaint] = useState<string>("");
   const [medicalHistory, setMedicalHistory] = useState<string>("");
@@ -31,9 +37,10 @@ export default function Page(props: any) {
         }
       })
       .catch((err) => {})
-      .finally(() => {});
+      .finally(() => setLoading(false));
   }, []);
 
+  if (loading) return <Loading />;
   return (
     <Box>
       <NavBar />
