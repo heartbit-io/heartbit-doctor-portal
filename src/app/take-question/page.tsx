@@ -5,36 +5,31 @@ import { DoubleButton, PatientInfo, NavBar, Loading } from "`@/components`";
 import { useEffect, useState } from "react";
 
 import { getQuestion } from "`@/apis/questionApi`";
-
-const body = [
-  {
-    title: "Question",
-    description: `I have early cataracts. I've been taking MTX steroid 1.5 tablets for 2 weeks now for arthritis, is it okay to take it? \nI'm scared because my eyes feel like they've gotten worse.`,
-  },
-  {
-    title: "Chief Complaint",
-    description: `* Early cataracts \n* Concerns about methotrexate (MTX) steroid (1.5 tablets for 2 weeks) for arthritis \n* Fear of worsening eye condition`,
-  },
-  {
-    title: " Medical History",
-  },
-];
+import { useRouter } from "next/navigation";
 
 export default function Page() {
+  const router = useRouter();
   const [question, setQuestion] = useState<any>();
   const [err, setErr] = useState();
   const [loading, setLoading] = useState(true);
+  const [offset, setOffset] = useState(1);
 
   useEffect(() => {
-    getQuestion()
+    fetchQuestion();
+  }, []);
+
+  const fetchQuestion = async () => {
+    setLoading(true);
+    getQuestion(offset)
       .then((res) => {
         if (res.success && res.statusCode === 200) {
           setQuestion(res.data);
+          setOffset(offset + 1);
         }
       })
       .catch((err) => setErr(err))
       .finally(() => setLoading(false));
-  }, []);
+  };
 
   if (loading) return <Loading />;
 
@@ -49,10 +44,10 @@ export default function Page() {
           <DoubleButton
             bounty={question?.bountyAmount}
             date={question?.createdAt}
-            cancelBtn={{ text: "Pass", onClick: () => {} }}
+            cancelBtn={{ text: "Pass", onClick: fetchQuestion }}
             confirmBtn={{
               text: "Take",
-              onClick: () => {},
+              onClick: () => router.push(`/answer?questionId=${question?.id}`),
             }}
           />
           <Divider />
