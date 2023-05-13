@@ -1,5 +1,6 @@
 import React from "react";
 import { Box, Button, Stack, Typography } from "@mui/material";
+import moment from "moment";
 
 type Props = {
   bounty?: string | number;
@@ -29,13 +30,15 @@ const DoubleButton = ({ bounty, date, cancelBtn, confirmBtn }: Props) => {
         {!!bounty && (
           <Stack spacing={1} direction="row">
             <Typography sx={{ fontWeight: "bold" }}>Bounty:</Typography>
-            <Typography>{bounty} sats</Typography>
+            <Typography>{bounty.toLocaleString()} sats</Typography>
           </Stack>
         )}
         {!!date && (
           <Stack spacing={1} direction="row">
             <Typography sx={{ fontWeight: "bold" }}>Date:</Typography>
-            <Typography>{date}</Typography>
+            <Typography>
+              {moment(date).format("h:mmA, Do MMMM YYYY")}
+            </Typography>
           </Stack>
         )}
       </Stack>
