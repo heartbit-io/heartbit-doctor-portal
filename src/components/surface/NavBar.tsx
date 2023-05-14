@@ -8,24 +8,18 @@ import Menu from "@mui/material/Menu";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
+import { useRouter } from "next/navigation";
 
-const pages = ["Take Questions", "My Answers"];
 const settings = ["Sign-out"];
 
 function NavBar() {
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
-    null
-  );
+  const router = useRouter();
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
   };
 
   const handleCloseUserMenu = () => {
@@ -40,31 +34,34 @@ function NavBar() {
     >
       <Toolbar disableGutters>
         <img src="img/logo.svg" />
-
         <Box
           sx={{
+            display: "flex",
             flexGrow: 1,
             justifyContent: "center",
-            display: { xs: "none", md: "flex" },
+            alignItems: "center",
           }}
         >
-          {pages.map((page) => (
-            <Button
-              key={page}
-              onClick={handleCloseNavMenu}
-              sx={{
-                my: 2,
-                color: "#3A3A3C",
-                display: "block",
-                fontWeight: "bold",
-              }}
-            >
-              {page}
-            </Button>
-          ))}
+          <Button
+            onClick={() => router.push("/take-question")}
+            sx={{
+              color: "#3A3A3C",
+              fontWeight: "bold",
+            }}
+          >
+            Take Questions
+          </Button>
+          <Button
+            onClick={() => router.push("/my-answers")}
+            sx={{
+              color: "#3A3A3C",
+              fontWeight: "bold",
+            }}
+          >
+            My Answers
+          </Button>
         </Box>
-
-        <Box sx={{ flexGrow: 0 }}>
+        <Box>
           <Tooltip title="Sign-out">
             <Button
               sx={{
