@@ -19,3 +19,13 @@ export const getQuestionDetails = async (questionId: number) => {
     return err;
   }
 };
+
+export const getMyAnswers = async (offset: number) => {
+  try {
+    const res = await api.get(`/doctors/answered-questions`);
+    console.log("GET MY ANSWERS>>>>>>>>> ", res);
+    return res.data;
+  } catch (err) {
+    return err;
+  }
+};
