@@ -2,6 +2,9 @@ import { api } from ".";
 
 export const getQuestion = async (offset: number) => {
   try {
+    api.defaults.headers.common[
+      "Authorization"
+    ] = `Bearer ${localStorage.getItem("token")}`;
     const res = await api.get("doctors/questions", { limit: 1, offset });
     console.log("GET QUESTION>>>>>>>>> ", res);
     return res.data;
@@ -12,6 +15,9 @@ export const getQuestion = async (offset: number) => {
 
 export const getQuestionDetails = async (questionId: number) => {
   try {
+    api.defaults.headers.common[
+      "Authorization"
+    ] = `Bearer ${localStorage.getItem("token")}`;
     const res = await api.get(`doctors/questions/${questionId}`);
     console.log("GET QUESTION DETAILS>>>>>>>>> ", res);
     return res.data;
@@ -22,6 +28,9 @@ export const getQuestionDetails = async (questionId: number) => {
 
 export const getMyAnswers = async (offset: number) => {
   try {
+    api.defaults.headers.common[
+      "Authorization"
+    ] = `Bearer ${localStorage.getItem("token")}`;
     const res = await api.get(`/doctors/answered-questions`);
     console.log("GET MY ANSWERS>>>>>>>>> ", res);
     return res.data;
@@ -32,6 +41,9 @@ export const getMyAnswers = async (offset: number) => {
 
 export const answer = async (data: any) => {
   try {
+    api.defaults.headers.common[
+      "Authorization"
+    ] = `Bearer ${localStorage.getItem("token")}`;
     const res = await api.get(`/replies`, data);
     console.log("ANSWER >>>>>>>>> ", res);
     return res.data;
