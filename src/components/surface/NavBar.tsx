@@ -9,11 +9,14 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import { useRouter } from "next/navigation";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "`@/firebase`";
 
 const settings = ["Sign-out"];
 
 function NavBar() {
   const router = useRouter();
+  const [user] = useAuthState(auth);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
@@ -74,7 +77,7 @@ function NavBar() {
               variant="outlined"
               onClick={handleOpenUserMenu}
             >
-              dr@hospital.com
+              {user?.email}
             </Button>
           </Tooltip>
           <Menu
