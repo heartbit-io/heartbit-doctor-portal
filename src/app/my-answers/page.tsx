@@ -1,9 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Loading, NavBar } from "`@/components`";
+import { EmptyMyAnswers, Loading, NavBar } from "`@/components`";
 import {
   Box,
-  Button,
   Container,
   Table,
   TableBody,
@@ -15,10 +14,8 @@ import {
 } from "@mui/material";
 import { getMyAnswers } from "`@/apis/questionApi`";
 import moment from "moment";
-import { useRouter } from "next/navigation";
 
 export default function Page() {
-  const router = useRouter();
   const [offset, setOffset] = useState(0);
   const [answers, setAnswers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -45,30 +42,7 @@ export default function Page() {
     <Box component="div" height={"100vh"} style={{ overflow: "hidden" }}>
       <NavBar />
       {answers.length === 0 ? (
-        <Box
-          height={"80%"}
-          display={"flex"}
-          flexDirection={"column"}
-          justifyContent={"center"}
-          alignItems={"center"}
-        >
-          <Typography
-            whiteSpace={"pre-line"}
-            variant="body1"
-            textAlign={"center"}
-          >
-            {
-              "You haven't answered any questions yet.\nMake your first response to a patient's question."
-            }
-          </Typography>
-          <Button
-            variant="contained"
-            style={{ background: "#34C759", marginTop: 24 }}
-            onClick={() => router.push("/take-question")}
-          >
-            Take Question
-          </Button>
-        </Box>
+        <EmptyMyAnswers />
       ) : (
         <Container maxWidth={false} component="div">
           <Typography variant="h3" mt={5} mb={5} sx={{ fontWeight: "bold" }}>
