@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { AppThunk } from "..";
 
-// apis
-// import { getUser } from "apis/userApi";
+// apis;
+import { getUser } from "`@/apis/userApi`";
 
 interface UserSlice {
   userData: any;
@@ -43,23 +43,23 @@ export const { setUserData, setLoading, setError, resetUserData } =
   userSlice.actions;
 export default userSlice.reducer;
 
-// export const getUserData =
-//   (email: string): AppThunk =>
-//   async (dispatch) => {
-//     try {
-//       if (email) {
-//         const res: any = await getUser(email);
-//         if (res.statusCode === 200 && res?.success) {
-//           dispatch(setUserData(res.data));
-//           return true;
-//         } else {
-//           return false;
-//         }
-//       } else {
-//         return false;
-//       }
-//     } catch (err) {
-//       console.log(">>>>>>", err);
-//       return false;
-//     }
-//   };
+export const getUserData =
+  (email: string): AppThunk =>
+  async (dispatch) => {
+    try {
+      if (email) {
+        const res: any = await getUser(email);
+        if (res.statusCode === 200 && res?.success) {
+          dispatch(setUserData(res.data));
+          return true;
+        } else {
+          return false;
+        }
+      } else {
+        return false;
+      }
+    } catch (err) {
+      console.log(">>>>>>", err);
+      return false;
+    }
+  };

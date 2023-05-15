@@ -29,3 +29,13 @@ export const getMyAnswers = async (offset: number) => {
     return err;
   }
 };
+
+export const answer = async (data: any) => {
+  try {
+    const res = await api.get(`/replies`, data);
+    console.log("ANSWER >>>>>>>>> ", res);
+    return res.data;
+  } catch (err) {
+    return err;
+  }
+};
