@@ -1,6 +1,6 @@
 "use client";
 import { Box, Container, Divider, Stack, Typography } from "@mui/material";
-import { getQuestionDetails } from "`@/apis/questionApi`";
+import { answer, getQuestionDetails } from "`@/apis/questionApi`";
 import {
   DoubleButton,
   PatientInfo,
@@ -8,10 +8,12 @@ import {
   AnswerInput,
   Loading,
 } from "`@/components`";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function Page(props: any) {
   const { questionId } = props.searchParams;
+  const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [question, setQuestion] = useState<any>();
   const [chiefComplaint, setChiefComplaint] = useState<string>("");
@@ -40,6 +42,24 @@ export default function Page(props: any) {
       .finally(() => setLoading(false));
   }, []);
 
+  const confirmHandler = async () => {
+    answer({
+      userId: 12, //should be dynamic
+      content: question?.content,
+      questionId: questionId,
+      plan: plan,
+      majorComplaint: chiefComplaint,
+      medicalHistory: medicalHistory,
+      currentMedications: currentMedication,
+      assessment: assessment,
+      triage: triage,
+      doctorNote: doctorNote,
+      status: "done",
+    })
+      .then((res) => {})
+      .catch((err) => {});
+  };
+
   if (loading) return <Loading />;
   return (
     <Box>
@@ -52,10 +72,10 @@ export default function Page(props: any) {
           <DoubleButton
             bounty={question?.bountyAmount}
             date={question?.createdAt}
-            cancelBtn={{ text: "Cancel", onClick: () => {} }}
+            cancelBtn={{ text: "Cancel", onClick: () => router.back() }}
             confirmBtn={{
               text: "Confirm",
-              onClick: () => {},
+              onClick: confirmHandler,
               style: { background: "#007AFF" },
             }}
           />
@@ -117,10 +137,10 @@ export default function Page(props: any) {
           </Box>
           <Divider sx={{ mb: 4 }} />
           <DoubleButton
-            cancelBtn={{ text: "Cancel", onClick: () => {} }}
+            cancelBtn={{ text: "Cancel", onClick: () => router.back() }}
             confirmBtn={{
               text: "Confirm",
-              onClick: () => {},
+              onClick: confirmHandler,
               style: { background: "#007AFF" },
             }}
           />
