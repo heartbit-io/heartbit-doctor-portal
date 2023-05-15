@@ -32,6 +32,8 @@ const Page = () => {
               router.push("sign-in");
             });
         }
+      } else {
+        router.push("sign-in");
       }
     }
   });

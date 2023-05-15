@@ -17,17 +17,7 @@ const settings = ["Sign-out"];
 function NavBar() {
   const router = useRouter();
   const [user] = useAuthState(auth);
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
-    null
-  );
-
-  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget);
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
+  const [menuVisible, toggleMenu] = React.useState(false);
 
   return (
     <AppBar
@@ -75,7 +65,7 @@ function NavBar() {
               }}
               size="small"
               variant="outlined"
-              onClick={handleOpenUserMenu}
+              onClick={() => toggleMenu(true)}
             >
               {user?.email}
             </Button>
@@ -83,7 +73,6 @@ function NavBar() {
           <Menu
             sx={{ mt: "45px" }}
             id="menu-appbar"
-            anchorEl={anchorElUser}
             anchorOrigin={{
               vertical: "top",
               horizontal: "right",
@@ -93,14 +82,18 @@ function NavBar() {
               vertical: "top",
               horizontal: "right",
             }}
-            open={Boolean(anchorElUser)}
-            onClose={handleCloseUserMenu}
+            open={menuVisible}
+            onClose={() => toggleMenu(false)}
           >
-            {settings.map((setting) => (
-              <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                <Typography textAlign="center">{setting}</Typography>
-              </MenuItem>
-            ))}
+            <MenuItem
+              onClick={() => {
+                auth.signOut();
+                router.push("/sign-in");
+                localStorage.clear();
+              }}
+            >
+              <Typography textAlign="center">Sign out</Typography>
+            </MenuItem>
           </Menu>
         </Box>
       </Toolbar>
