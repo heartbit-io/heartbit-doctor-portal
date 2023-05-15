@@ -8,31 +8,31 @@ import { api } from "`@/apis`";
 import { getUser } from "`@/apis/userApi`";
 
 export function Providers({ children }: { children: React.ReactNode }) {
-  const router = useRouter();
-  useEffect(() => {
-    const unsubscribe = auth.onIdTokenChanged(async (user) => {
-      if (!user) {
-        router.push("sign-in");
-      }
-      // auth.signOut();
+  // const router = useRouter();
+  // useEffect(() => {
+  //   const unsubscribe = auth.onIdTokenChanged(async (user) => {
+  //     if (!user) {
+  //       router.push("sign-in");
+  //     }
+  //     // auth.signOut();
 
-      if (user?.email) {
-        const token = await user?.getIdToken();
-        if (token) {
-          localStorage.setItem("token", token);
-          api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-        }
-        getUser(user?.email).then(async (res) => {
-          if (res.data.role === "doctor" || res.data.role === "admin") {
-            router.push("take-question");
-          } else {
-            router.push(`sign-in`);
-          }
-        });
-      }
-    });
-    return () => unsubscribe();
-  }, []);
+  //     if (user?.email) {
+  //       const token = await user?.getIdToken();
+  //       if (token) {
+  //         localStorage.setItem("token", token);
+  //         api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  //       }
+  //       getUser(user?.email).then(async (res) => {
+  //         if (res.data.role === "doctor" || res.data.role === "admin") {
+  //           router.push("take-question");
+  //         } else {
+  //           router.push(`sign-in`);
+  //         }
+  //       });
+  //     }
+  //   });
+  //   return () => unsubscribe();
+  // }, []);
 
   return <Provider store={store}>{children}</Provider>;
 }
