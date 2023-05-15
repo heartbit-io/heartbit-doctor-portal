@@ -22,18 +22,13 @@ export function Providers({ children }: { children: React.ReactNode }) {
           localStorage.setItem("token", token);
           api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
         }
-        getUser(user?.email)
-          .then(async (res) => {
-            console.log("??????????????", res);
-            if (res.data.role === "doctor" || res.data.role === "admin") {
-              router.push("take-question");
-            } else {
-              router.push(`sign-in`);
-            }
-          })
-          .catch(() => {
-            router.push("sign-in");
-          });
+        getUser(user?.email).then(async (res) => {
+          if (res.data.role === "doctor" || res.data.role === "admin") {
+            router.push("take-question");
+          } else {
+            router.push(`sign-in`);
+          }
+        });
       }
     });
     return () => unsubscribe();

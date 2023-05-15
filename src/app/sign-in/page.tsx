@@ -14,7 +14,7 @@ const Page = () => {
   const signInHandler = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     sendSignInLinkToEmail(auth, email, {
-      url: "http://localhost:3000/",
+      url: "https://heartbit-doctor-portal.vercel.app/",
       handleCodeInApp: true,
     }).then(() => {
       localStorage.setItem("email", email);
