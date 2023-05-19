@@ -1,8 +1,13 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
 
 const Page = () => {
+  const [email, setEmail] = useState("");
+  useEffect(() => {
+    setEmail(localStorage.getItem("email") || "");
+  }, []);
+
   return (
     <Box
       height="100vh"
@@ -19,7 +24,7 @@ const Page = () => {
           We have sent an email to:{" "}
         </Typography>
         <Typography textAlign={"center"} variant="body1" fontWeight={"bold"}>
-          {localStorage.getItem("email")}
+          {email}
         </Typography>
       </Box>
     </Box>
