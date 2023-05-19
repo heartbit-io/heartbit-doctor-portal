@@ -87,8 +87,8 @@ function NavBar() {
           >
             <MenuItem
               onClick={() => {
-                auth.signOut();
                 router.push("/sign-in");
+                auth.signOut();
                 localStorage.clear();
               }}
             >

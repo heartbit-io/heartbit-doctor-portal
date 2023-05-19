@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect } from "react";
-import { Box, Fade, LinearProgress, Typography } from "@mui/material";
+import { Box, LinearProgress, Typography } from "@mui/material";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "`@/firebase`";
 import { isSignInWithEmailLink, signInWithEmailLink } from "firebase/auth";
@@ -58,30 +58,28 @@ const Page = () => {
   };
 
   return (
-    <Fade timeout={700}>
-      <Box
-        height="100vh"
-        display="flex"
-        flexDirection="column"
-        justifyContent={"center"}
-        alignItems={"center"}
-      >
-        <Box justifyContent={"center"} alignItems={"center"}>
-          <img src="img/logo_lg.svg" />
-          <Typography textAlign={"center"} variant="h3" mt={5} mb={3}>
-            Authenticating
-          </Typography>
-          <LinearProgress
-            sx={{
-              background: "#ee822335",
-              "& .MuiLinearProgress-barColorPrimary": {
-                backgroundColor: "#EE8223",
-              },
-            }}
-          />
-        </Box>
+    <Box
+      height="100vh"
+      display="flex"
+      flexDirection="column"
+      justifyContent={"center"}
+      alignItems={"center"}
+    >
+      <Box justifyContent={"center"} alignItems={"center"}>
+        <img src="img/logo_lg.svg" />
+        <Typography textAlign={"center"} variant="h3" mt={5} mb={3}>
+          Authenticating
+        </Typography>
+        <LinearProgress
+          sx={{
+            background: "#ee822335",
+            "& .MuiLinearProgress-barColorPrimary": {
+              backgroundColor: "#EE8223",
+            },
+          }}
+        />
       </Box>
-    </Fade>
+    </Box>
   );
 };
 
