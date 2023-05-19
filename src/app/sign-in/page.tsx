@@ -17,7 +17,7 @@ const Page = () => {
     setLoading(true);
     e.preventDefault();
     sendSignInLinkToEmail(auth, email, {
-      url: "http://localhost:3000/",
+      url: "https://doctor.heartbit.io/",
       handleCodeInApp: true,
     })
       .then(() => {
