@@ -1,13 +1,12 @@
 "use client";
 import React, { useEffect } from "react";
-import { Box, Typography } from "@mui/material";
+import { Box, LinearProgress, Typography } from "@mui/material";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "`@/firebase`";
 import { isSignInWithEmailLink, signInWithEmailLink } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { getUser } from "`@/apis/userApi`";
 import { api } from "`@/apis`";
-import { Loading } from "`@/components`";
 
 const Page = () => {
   const router = useRouter();
@@ -24,7 +23,8 @@ const Page = () => {
         } else {
           signInWithEmailLink(auth, email, window.location.href)
             .then((res) => {
-              if (res.user.email) {
+              if (res.user) {
+                localStorage.removeItem("email");
                 fetchUserInfo(res.user);
               }
             })
@@ -33,10 +33,10 @@ const Page = () => {
             });
         }
       } else {
-        router.push("sign-in");
+        if (!loading) router.push("sign-in");
       }
     }
-  });
+  }, [user, loading]);
 
   const fetchUserInfo = async (user: any) => {
     const token = await user?.getIdToken();
@@ -49,7 +49,7 @@ const Page = () => {
         if (res.data.role === "doctor" || res.data.role === "admin") {
           router.push("take-question");
         } else {
-          router.push(`sign-in`);
+          alert("Authentication failed. User is not verified as a doctor");
         }
       })
       .catch(() => {
@@ -57,26 +57,27 @@ const Page = () => {
       });
   };
 
-  if (loading || user) return <Loading />;
-
   return (
     <Box
       height="100vh"
       display="flex"
+      flexDirection="column"
       justifyContent={"center"}
       alignItems={"center"}
     >
-      <Box>
+      <Box justifyContent={"center"} alignItems={"center"}>
         <img src="img/logo_lg.svg" />
-        <Typography textAlign={"center"} variant="h5" mt={5} mb={3}>
-          Check your email inbox
+        <Typography textAlign={"center"} variant="h3" mt={5} mb={3}>
+          Authenticating
         </Typography>
-        <Typography textAlign={"center"} variant="body1">
-          We have sent an email to:{" "}
-        </Typography>
-        <Typography textAlign={"center"} variant="body1" fontWeight={"bold"}>
-          {localStorage.getItem("email")}
-        </Typography>
+        <LinearProgress
+          sx={{
+            background: "#ee822335",
+            "& .MuiLinearProgress-barColorPrimary": {
+              backgroundColor: "#EE8223",
+            },
+          }}
+        />
       </Box>
     </Box>
   );

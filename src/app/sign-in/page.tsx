@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
-import { Button, Box, TextField } from "@mui/material";
+import { Box, TextField } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
 import { auth } from "`@/firebase`";
 import { sendSignInLinkToEmail } from "firebase/auth";
 import { useRouter } from "next/navigation";
@@ -10,16 +11,20 @@ const Page = () => {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [isValidEmail, setIsValidEmail] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const signInHandler = (e: React.MouseEvent<HTMLElement>) => {
+    setLoading(true);
     e.preventDefault();
     sendSignInLinkToEmail(auth, email, {
-      url: "https://heartbit-doctor-portal.vercel.app/",
+      url: "http://localhost:3000/",
       handleCodeInApp: true,
-    }).then(() => {
-      localStorage.setItem("email", email);
-      router.push("/");
-    });
+    })
+      .then(() => {
+        localStorage.setItem("email", email);
+        router.push("/email-sent");
+      })
+      .finally(() => setLoading(false));
   };
 
   const onEmailChange = (text: string) => {
@@ -43,7 +48,7 @@ const Page = () => {
           size="small"
           style={{ backgroundColor: "#fff", marginTop: 30, marginBottom: 10 }}
         />
-        <Button
+        <LoadingButton
           style={{
             backgroundColor: isValidEmail ? "#F68F2A" : "#E5E5EA",
             color: isValidEmail ? "#fff" : "#fff",
@@ -52,9 +57,10 @@ const Page = () => {
           size="large"
           onClick={signInHandler}
           disabled={!isValidEmail}
+          loading={loading}
         >
           Sign-in
-        </Button>
+        </LoadingButton>
       </Box>
     </Box>
   );
