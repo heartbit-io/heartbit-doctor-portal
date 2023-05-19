@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { Box, TextField } from "@mui/material";
+import { Box, Fade, TextField } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import { auth } from "`@/firebase`";
 import { sendSignInLinkToEmail } from "firebase/auth";
@@ -33,36 +33,38 @@ const Page = () => {
   };
 
   return (
-    <Box
-      height="100vh"
-      display="flex"
-      justifyContent={"center"}
-      alignItems={"center"}
-    >
-      <Box>
-        <img src="img/logo_lg.svg" />
-        <TextField
-          value={email}
-          onChange={(e) => onEmailChange(e.target.value)}
-          fullWidth
-          size="small"
-          style={{ backgroundColor: "#fff", marginTop: 30, marginBottom: 10 }}
-        />
-        <LoadingButton
-          style={{
-            backgroundColor: isValidEmail ? "#F68F2A" : "#E5E5EA",
-            color: isValidEmail ? "#fff" : "#fff",
-          }}
-          fullWidth
-          size="large"
-          onClick={signInHandler}
-          disabled={!isValidEmail}
-          loading={loading}
-        >
-          Sign-in
-        </LoadingButton>
+    <Fade timeout={700}>
+      <Box
+        height="100vh"
+        display="flex"
+        justifyContent={"center"}
+        alignItems={"center"}
+      >
+        <Box>
+          <img src="img/logo_lg.svg" />
+          <TextField
+            value={email}
+            onChange={(e) => onEmailChange(e.target.value)}
+            fullWidth
+            size="small"
+            style={{ backgroundColor: "#fff", marginTop: 30, marginBottom: 10 }}
+          />
+          <LoadingButton
+            style={{
+              backgroundColor: isValidEmail ? "#F68F2A" : "#E5E5EA",
+              color: isValidEmail ? "#fff" : "#fff",
+            }}
+            fullWidth
+            size="large"
+            onClick={signInHandler}
+            disabled={!isValidEmail}
+            loading={loading}
+          >
+            Sign-in
+          </LoadingButton>
+        </Box>
       </Box>
-    </Box>
+    </Fade>
   );
 };
 

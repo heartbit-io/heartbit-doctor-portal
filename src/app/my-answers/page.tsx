@@ -4,6 +4,7 @@ import { EmptyMyAnswers, Loading, NavBar } from "`@/components`";
 import {
   Box,
   Container,
+  Fade,
   Table,
   TableBody,
   TableCell,
@@ -39,79 +40,83 @@ export default function Page() {
   if (loading) return <Loading />;
 
   return (
-    <Box component="div" height={"100vh"} style={{ overflow: "hidden" }}>
-      <NavBar />
-      {answers.length === 0 ? (
-        <EmptyMyAnswers />
-      ) : (
-        <Container maxWidth={false} component="div">
-          <Typography variant="h3" mt={5} mb={5} sx={{ fontWeight: "bold" }}>
-            My Answers
-          </Typography>
+    <Fade in={!loading} timeout={700}>
+      <Box component="div" height={"100vh"} style={{ overflow: "hidden" }}>
+        <NavBar />
+        {answers.length === 0 ? (
+          <EmptyMyAnswers />
+        ) : (
+          <Container maxWidth={false} component="div">
+            <Typography variant="h3" mt={5} mb={5} sx={{ fontWeight: "bold" }}>
+              My Answers
+            </Typography>
 
-          <TableContainer
-            sx={{
-              background: "#fff",
-              borderRadius: 2,
-            }}
-          >
-            <Table
-              stickyHeader
-              sx={{ minWidth: 650 }}
-              aria-label="simple table"
+            <TableContainer
+              sx={{
+                background: "#fff",
+                borderRadius: 2,
+              }}
             >
-              <Box
-                component="div"
-                height={"75vh"}
-                style={{ overflow: "scroll" }}
+              <Table
+                stickyHeader
+                sx={{ minWidth: 650 }}
+                aria-label="simple table"
               >
-                <TableHead>
-                  <TableRow>
-                    <TableCell sx={{ color: "#8E8E93" }}>Questions</TableCell>
-                    <TableCell sx={{ color: "#8E8E93" }} align="right">
-                      Bounty
-                    </TableCell>
-                    <TableCell sx={{ color: "#8E8E93" }} align="right">
-                      Date
-                    </TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody sx={{ overflow: "hidden" }}>
-                  {answers?.map((el) => (
-                    <TableRow
-                      key={el?.title}
-                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                    >
-                      <TableCell component="th" scope="row">
-                        <Typography variant="subtitle1" fontWeight="bold">
-                          {el?.title}
-                        </Typography>
-                        <Typography
-                          variant="subtitle1"
-                          sx={{
-                            display: "-webkit-box",
-                            overflow: "hidden",
-                            WebkitBoxOrient: "vertical",
-                            WebkitLineClamp: 1,
-                          }}
-                        >
-                          {el?.content}
-                        </Typography>
+                <Box
+                  component="div"
+                  height={"75vh"}
+                  style={{ overflow: "scroll" }}
+                >
+                  <TableHead>
+                    <TableRow>
+                      <TableCell sx={{ color: "#8E8E93" }}>Questions</TableCell>
+                      <TableCell sx={{ color: "#8E8E93" }} align="right">
+                        Bounty
                       </TableCell>
-                      <TableCell align="right" width={"10%"}>
-                        {el?.bountyAmount.toLocaleString()} sats
-                      </TableCell>
-                      <TableCell align="right" width={"10%"}>
-                        {moment(el?.createdAt).format("D MMM YYYY")}
+                      <TableCell sx={{ color: "#8E8E93" }} align="right">
+                        Date
                       </TableCell>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Box>
-            </Table>
-          </TableContainer>
-        </Container>
-      )}
-    </Box>
+                  </TableHead>
+                  <TableBody sx={{ overflow: "hidden" }}>
+                    {answers?.map((el) => (
+                      <TableRow
+                        key={el?.title}
+                        sx={{
+                          "&:last-child td, &:last-child th": { border: 0 },
+                        }}
+                      >
+                        <TableCell component="th" scope="row">
+                          <Typography variant="subtitle1" fontWeight="bold">
+                            {el?.title}
+                          </Typography>
+                          <Typography
+                            variant="subtitle1"
+                            sx={{
+                              display: "-webkit-box",
+                              overflow: "hidden",
+                              WebkitBoxOrient: "vertical",
+                              WebkitLineClamp: 1,
+                            }}
+                          >
+                            {el?.content}
+                          </Typography>
+                        </TableCell>
+                        <TableCell align="right" width={"10%"}>
+                          {el?.bountyAmount.toLocaleString()} sats
+                        </TableCell>
+                        <TableCell align="right" width={"10%"}>
+                          {moment(el?.createdAt).format("D MMM YYYY")}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Box>
+              </Table>
+            </TableContainer>
+          </Container>
+        )}
+      </Box>
+    </Fade>
   );
 }
