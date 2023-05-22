@@ -1,6 +1,7 @@
 import React from "react";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import moment from "moment";
+import { LoadingButton } from "@mui/lab";
 
 type Props = {
   bounty?: string | number;
@@ -15,9 +16,16 @@ type Props = {
     onClick: () => void;
     style?: any;
   };
+  loading?: boolean;
 };
 
-const DoubleButton = ({ bounty, date, cancelBtn, confirmBtn }: Props) => {
+const DoubleButton = ({
+  bounty,
+  date,
+  cancelBtn,
+  confirmBtn,
+  loading,
+}: Props) => {
   return (
     <Box
       display={"flex"}
@@ -51,18 +59,20 @@ const DoubleButton = ({ bounty, date, cancelBtn, confirmBtn }: Props) => {
         >
           {cancelBtn?.text}
         </Button>
-        <Button
+        <LoadingButton
           variant="contained"
           size="large"
           style={{
             backgroundColor: "#34C759",
             padding: "8px 60px",
+            color: "#fff",
             ...confirmBtn?.style,
           }}
           onClick={confirmBtn?.onClick}
+          loading={loading}
         >
           {confirmBtn?.text}
-        </Button>
+        </LoadingButton>
       </Stack>
     </Box>
   );
