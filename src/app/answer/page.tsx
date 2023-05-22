@@ -18,31 +18,47 @@ import {
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
+const inputs = [
+  { title: "Chief Complaint", type: "chiefComplaint" },
+  { title: "Medical History", type: "medicalHistory" },
+  { title: "Current Medication", type: "currentMedication" },
+  { title: "Assessment", type: "assessment" },
+  { title: "Plan", type: "plan" },
+  { title: "Triage", type: "triage" },
+  { title: "Doctor’s Note", type: "doctorNote" },
+];
+
 export default function Page(props: any) {
   const { questionId } = props.searchParams;
   const router = useRouter();
+  const [showError, setShowError] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [answering, setAnswering] = useState(false);
   const [question, setQuestion] = useState<any>();
-  const [chiefComplaint, setChiefComplaint] = useState<string>("");
-  const [medicalHistory, setMedicalHistory] = useState<string>("");
-  const [currentMedication, setCurrentMedication] = useState<string>("");
-  const [assessment, setAssessment] = useState<string>("");
-  const [plan, setPlan] = useState<string>("");
-  const [triage, setTriage] = useState<string>("");
-  const [doctorNote, setDoctorNote] = useState<string>("");
+  const [values, setValues] = useState<any>({
+    chiefComplaint: "",
+    medicalHistory: "",
+    currentMedication: "",
+    assessment: "",
+    plan: "",
+    triage: "",
+    doctorNote: "",
+  });
 
   useEffect(() => {
     getQuestionDetails(questionId)
       .then((res) => {
         if (res.success && res.statusCode === 200) {
           setQuestion(res.data);
-          setChiefComplaint(res.data.chiefComplaint || "");
-          setMedicalHistory(res.data.medicalHistory || "");
-          setCurrentMedication(res.data.currentMedications);
-          setAssessment(res.data.assessment || "");
-          setPlan(res.data.plan || "");
-          setTriage(res.data.triage || "");
-          setDoctorNote(res.data.doctorNote || "");
+          setValues({
+            chiefComplaint: res.data.chiefComplaint || "",
+            medicalHistory: res.data.medicalHistory || "",
+            currentMedication: res.data.currentMedications,
+            assessment: res.data.assessment || "",
+            plan: res.data.plan || "",
+            triage: res.data.triage || "",
+            doctorNote: res.data.doctorNote || "",
+          });
         }
       })
       .catch((err) => {})
@@ -50,21 +66,36 @@ export default function Page(props: any) {
   }, []);
 
   const confirmHandler = async () => {
-    answer({
-      userId: 12, //should be dynamic
-      content: question?.content,
-      questionId: questionId,
-      plan: plan,
-      majorComplaint: chiefComplaint,
-      medicalHistory: medicalHistory,
-      currentMedications: currentMedication,
-      assessment: assessment,
-      triage: triage,
-      doctorNote: doctorNote,
-      status: "done",
-    })
-      .then((res) => {})
-      .catch((err) => {});
+    if (
+      values.plan.length < 100 ||
+      values.chiefComplaint.length < 100 ||
+      values.medicalHistory.length < 100 ||
+      values.currentMedication.length < 100 ||
+      values.assessment.length < 100 ||
+      values.triage.length < 100 ||
+      values.doctorNote.length < 100
+    ) {
+      setShowError(true);
+    } else {
+      setShowError(false);
+      setAnswering(true);
+      answer({
+        userId: question.userId,
+        content: question?.content,
+        questionId: questionId,
+        plan: values.plan,
+        majorComplaint: values.chiefComplaint,
+        medicalHistory: values.medicalHistory,
+        currentMedications: values.currentMedication,
+        assessment: values.assessment,
+        triage: values.triage,
+        doctorNote: values.doctorNote,
+        status: "done",
+      })
+        .then((res) => router.replace("/my-answers"))
+        .catch((err) => {})
+        .finally(() => setAnswering(false));
+    }
   };
 
   if (loading) return <Loading />;
@@ -86,6 +117,7 @@ export default function Page(props: any) {
                 onClick: confirmHandler,
                 style: { background: "#007AFF" },
               }}
+              loading={answering}
             />
             <Divider />
             <Box
@@ -105,41 +137,16 @@ export default function Page(props: any) {
                   </Box>
                   <Divider />
                 </Box>
-                <AnswerInput
-                  title="Chief Complaint"
-                  description={chiefComplaint}
-                  onTextChange={setChiefComplaint}
-                />
-                <AnswerInput
-                  title="Medical History"
-                  description={medicalHistory}
-                  onTextChange={setMedicalHistory}
-                />
-                <AnswerInput
-                  title="Current Medication"
-                  description={currentMedication}
-                  onTextChange={setCurrentMedication}
-                />
-                <AnswerInput
-                  title="Assessment"
-                  description={assessment}
-                  onTextChange={setAssessment}
-                />
-                <AnswerInput
-                  title="Plan"
-                  description={plan}
-                  onTextChange={setPlan}
-                />
-                <AnswerInput
-                  title="Triage"
-                  description={triage}
-                  onTextChange={setTriage}
-                />
-                <AnswerInput
-                  title="Doctor’s Note"
-                  description={doctorNote}
-                  onTextChange={setDoctorNote}
-                />
+                {inputs.map((el) => (
+                  <AnswerInput
+                    title={el.title}
+                    description={values[el.type]}
+                    onTextChange={(text) =>
+                      setValues({ ...values, [el.type]: text })
+                    }
+                    showError={showError}
+                  />
+                ))}
               </Stack>
               <PatientInfo />
             </Box>
@@ -151,6 +158,7 @@ export default function Page(props: any) {
                 onClick: confirmHandler,
                 style: { background: "#007AFF" },
               }}
+              loading={answering}
             />
           </Box>
         </Container>
