@@ -86,7 +86,11 @@ export default function Page() {
                           "&:last-child td, &:last-child th": { border: 0 },
                         }}
                       >
-                        <TableCell component="th" scope="row">
+                        <TableCell
+                          component="th"
+                          scope="row"
+                          sx={{ width: "100%" }}
+                        >
                           <Typography variant="subtitle1" fontWeight="bold">
                             {el?.title}
                           </Typography>
@@ -102,11 +106,15 @@ export default function Page() {
                             {el?.content}
                           </Typography>
                         </TableCell>
-                        <TableCell align="right" width={"10%"}>
-                          {el?.bountyAmount.toLocaleString()} sats
+                        <TableCell align="right">
+                          <Typography variant="body2" whiteSpace={"nowrap"}>
+                            {el?.bountyAmount.toLocaleString()} sats
+                          </Typography>
                         </TableCell>
-                        <TableCell align="right" width={"10%"}>
-                          {moment(el?.createdAt).format("D MMM YYYY")}
+                        <TableCell align="right">
+                          <Typography variant="body2" whiteSpace={"nowrap"}>
+                            {moment(el?.createdAt).format("D MMM YYYY")}
+                          </Typography>
                         </TableCell>
                       </TableRow>
                     ))}
