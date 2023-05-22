@@ -44,8 +44,7 @@ export const answer = async (data: any) => {
     api.defaults.headers.common[
       "Authorization"
     ] = `Bearer ${localStorage.getItem("token")}`;
-    const res = await api.get(`/replies`, data);
-    console.log("ANSWER >>>>>>>>> ", res);
+    const res = await api.post(`/replies`, data);
     return res.data;
   } catch (err) {
     return err;
