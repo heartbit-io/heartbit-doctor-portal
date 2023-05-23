@@ -15,8 +15,10 @@ import {
 } from "@mui/material";
 import { getMyAnswers } from "`@/apis/questionApi`";
 import moment from "moment";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
+  const router = useRouter();
   const [offset, setOffset] = useState(0);
   const [answers, setAnswers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -81,10 +83,12 @@ export default function Page() {
                   <TableBody sx={{ overflow: "hidden" }}>
                     {answers?.map((el) => (
                       <TableRow
-                        key={el?.title}
+                        key={el?.id}
                         sx={{
                           "&:last-child td, &:last-child th": { border: 0 },
+                          cursor: "pointer",
                         }}
+                        onClick={() => router.push(`/my-answers/${el.id}`)}
                       >
                         <TableCell
                           component="th"
