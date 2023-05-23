@@ -40,6 +40,18 @@ export const getMyAnswers = async (offset: number) => {
   }
 };
 
+export const getAnswerDetails = async (questionId: string) => {
+  try {
+    api.defaults.headers.common[
+      "Authorization"
+    ] = `Bearer ${localStorage.getItem("token")}`;
+    const res = await api.get(`/doctors/answered-questions/${questionId}`);
+    return res.data;
+  } catch (err) {
+    return err;
+  }
+};
+
 export const answer = async (data: any) => {
   try {
     api.defaults.headers.common[
