@@ -8,7 +8,13 @@ import {
   Stack,
 } from "@mui/material";
 import { getAnswerDetails } from "`@/apis/questionApi`";
-import { DoubleButton, Loading, NavBar, PatientInfo } from "`@/components`";
+import {
+  BackButton,
+  DoubleButton,
+  Loading,
+  NavBar,
+  PatientInfo,
+} from "`@/components`";
 import React, { useEffect, useState } from "react";
 
 const answerDetails = [
@@ -40,7 +46,7 @@ const Page = ({ params }: Props) => {
       })
       .catch((err) => {})
       .finally(() => setLoading(false));
-  }, []);
+  }, [params.id]);
 
   if (loading) return <Loading />;
   return (
@@ -48,9 +54,10 @@ const Page = ({ params }: Props) => {
       <Box>
         <NavBar />
         <Container maxWidth={false}>
+          <BackButton />
           <Typography
             variant="h3"
-            mt={5}
+            mt={3}
             mb={5}
             sx={{
               fontWeight: "bold",
@@ -75,7 +82,7 @@ const Page = ({ params }: Props) => {
             >
               <Stack flex={1}>
                 {answerDetails.map((el) => (
-                  <Box>
+                  <Box key={el.type}>
                     <Box mt={4} mb={4}>
                       <Typography sx={{ fontWeight: "bold" }} mb={3}>
                         {el.title}

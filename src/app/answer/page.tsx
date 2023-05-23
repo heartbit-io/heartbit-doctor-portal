@@ -63,7 +63,7 @@ export default function Page(props: any) {
       })
       .catch((err) => {})
       .finally(() => setLoading(false));
-  }, []);
+  }, [questionId]);
 
   const confirmHandler = async () => {
     if (
@@ -150,6 +150,7 @@ export default function Page(props: any) {
                 </Box>
                 {inputs.map((el) => (
                   <AnswerInput
+                    key={el.type}
                     title={el.title}
                     description={values[el.type]}
                     onTextChange={(text) =>
