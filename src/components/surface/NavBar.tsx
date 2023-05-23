@@ -62,6 +62,7 @@ function NavBar() {
                 color: "#3A3A3C",
                 border: "1px solid #3A3A3C",
                 borderRadius: 14,
+                textTransform: "lowercase",
               }}
               size="small"
               variant="outlined"
