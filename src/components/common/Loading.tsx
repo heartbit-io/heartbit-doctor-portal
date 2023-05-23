@@ -13,7 +13,7 @@ const Loading = () => {
         height: "100vh",
       }}
     >
-      <img src="gif/loading_dot.gif" style={{ background: "red" }} />
+      <img src="/gif/loading_dot.gif" style={{ background: "red" }} />
     </Container>
   );
 };

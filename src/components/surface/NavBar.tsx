@@ -26,7 +26,7 @@ function NavBar() {
       sx={{ background: "#fff", padding: "0 40px" }}
     >
       <Toolbar disableGutters>
-        <img src="img/logo.svg" />
+        <img src="/img/logo.svg" />
         <Box
           sx={{
             display: "flex",
