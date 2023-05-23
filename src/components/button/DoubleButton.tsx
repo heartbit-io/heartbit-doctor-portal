@@ -6,12 +6,12 @@ import { LoadingButton } from "@mui/lab";
 type Props = {
   bounty?: string | number;
   date?: string | number;
-  cancelBtn: {
+  cancelBtn?: {
     text: string;
     onClick: () => void;
     style?: any;
   };
-  confirmBtn: {
+  confirmBtn?: {
     text: string;
     onClick: () => void;
     style?: any;
@@ -51,28 +51,32 @@ const DoubleButton = ({
         )}
       </Stack>
       <Stack spacing={1} direction="row">
-        <Button
-          variant="text"
-          size="large"
-          sx={{ color: "#3A3A3C", padding: "8px 60px", ...cancelBtn?.style }}
-          onClick={cancelBtn?.onClick}
-        >
-          {cancelBtn?.text}
-        </Button>
-        <LoadingButton
-          variant="contained"
-          size="large"
-          style={{
-            backgroundColor: "#34C759",
-            padding: "8px 60px",
-            color: "#fff",
-            ...confirmBtn?.style,
-          }}
-          onClick={confirmBtn?.onClick}
-          loading={loading}
-        >
-          {confirmBtn?.text}
-        </LoadingButton>
+        {!!cancelBtn && (
+          <Button
+            variant="text"
+            size="large"
+            sx={{ color: "#3A3A3C", padding: "8px 60px", ...cancelBtn?.style }}
+            onClick={cancelBtn?.onClick}
+          >
+            {cancelBtn?.text}
+          </Button>
+        )}
+        {!!confirmBtn && (
+          <LoadingButton
+            variant="contained"
+            size="large"
+            style={{
+              backgroundColor: "#34C759",
+              padding: "8px 60px",
+              color: "#fff",
+              ...confirmBtn?.style,
+            }}
+            onClick={confirmBtn?.onClick}
+            loading={loading}
+          >
+            {confirmBtn?.text}
+          </LoadingButton>
+        )}
       </Stack>
     </Box>
   );

@@ -11,10 +11,10 @@ import { getAnswerDetails } from "`@/apis/questionApi`";
 import { DoubleButton, Loading, NavBar, PatientInfo } from "`@/components`";
 import React, { useEffect, useState } from "react";
 
-const answers = [
+const answerDetails = [
   { title: "Chief Complaint", type: "chiefComplaint" },
   { title: "Medical History", type: "medicalHistory" },
-  { title: "Current Medication", type: "currentMedication" },
+  { title: "Current Medication", type: "currentMedications" },
   { title: "Assessment", type: "assessment" },
   { title: "Plan", type: "plan" },
   { title: "Triage", type: "triage" },
@@ -33,7 +33,11 @@ const Page = ({ params }: Props) => {
 
   useEffect(() => {
     getAnswerDetails(params.id)
-      .then((res) => console.log(res))
+      .then((res) => {
+        if (res.success && res.statusCode === 200) {
+          setAnswer(res.data);
+        }
+      })
       .catch((err) => {})
       .finally(() => setLoading(false));
   }, []);
@@ -45,18 +49,12 @@ const Page = ({ params }: Props) => {
         <NavBar />
         <Container maxWidth={false}>
           <Typography variant="h3" mt={5} mb={5} sx={{ fontWeight: "bold" }}>
-            Cataracts and MTX steroids
+            {answer.title}
           </Typography>
           <Box sx={{ background: "#fff" }} p={5}>
             <DoubleButton
               bounty={answer?.bountyAmount}
               date={answer?.createdAt}
-              cancelBtn={{ text: "Cancel", onClick: () => {} }}
-              confirmBtn={{
-                text: "Confirm",
-                onClick: () => {},
-                style: { background: "#007AFF" },
-              }}
             />
             <Divider />
             <Box
@@ -65,14 +63,14 @@ const Page = ({ params }: Props) => {
               justifyContent={"space-between"}
             >
               <Stack flex={1}>
-                {answers.map((el) => (
+                {answerDetails.map((el) => (
                   <Box>
                     <Box mt={4} mb={4}>
                       <Typography sx={{ fontWeight: "bold" }} mb={3}>
                         {el.title}
                       </Typography>
                       <Typography whiteSpace={"break-spaces"}>
-                        {el?.type}
+                        {answer[el?.type]}
                       </Typography>
                     </Box>
                     <Divider />
@@ -81,15 +79,6 @@ const Page = ({ params }: Props) => {
               </Stack>
               <PatientInfo />
             </Box>
-            <Divider sx={{ mb: 4 }} />
-            <DoubleButton
-              cancelBtn={{ text: "Cancel", onClick: () => {} }}
-              confirmBtn={{
-                text: "Confirm",
-                onClick: () => {},
-                style: { background: "#007AFF" },
-              }}
-            />
           </Box>
         </Container>
       </Box>
