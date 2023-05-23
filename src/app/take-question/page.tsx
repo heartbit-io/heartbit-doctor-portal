@@ -47,7 +47,18 @@ export default function Page() {
           <EmptyQuestion />
         ) : (
           <Container maxWidth={false}>
-            <Typography variant="h3" mt={5} mb={5} sx={{ fontWeight: "bold" }}>
+            <Typography
+              variant="h3"
+              mt={5}
+              mb={5}
+              sx={{
+                fontWeight: "bold",
+                display: "-webkit-box",
+                overflow: "hidden",
+                WebkitBoxOrient: "vertical",
+                WebkitLineClamp: 1,
+              }}
+            >
               {question?.title}
             </Typography>
             <Box sx={{ background: "#fff" }} p={5}>
