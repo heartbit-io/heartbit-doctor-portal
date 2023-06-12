@@ -50,6 +50,7 @@ const Page = () => {
           router.push("take-question");
         } else {
           alert("Authentication failed. User is not verified as a doctor");
+          router.replace("sign-in");
         }
       })
       .catch(() => {
