@@ -5,7 +5,7 @@ export const getQuestion = async (offset: number) => {
     api.defaults.headers.common[
       "Authorization"
     ] = `Bearer ${localStorage.getItem("token")}`;
-    const res = await api.get("doctors/questions", { limit: 1, offset });
+    const res = await api.get(`doctors/questions?limit=${1}&offset=${offset}`);
     console.log("GET QUESTION>>>>>>>>> ", res);
     return res.data;
   } catch (err) {
