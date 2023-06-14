@@ -83,6 +83,7 @@ export default function Page(props: any) {
         userId: question.userId,
         content: question?.content,
         questionId: questionId,
+        title: question.title,
         plan: values.plan,
         majorComplaint: values.chiefComplaint,
         medicalHistory: values.medicalHistory,
