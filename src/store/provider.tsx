@@ -7,6 +7,15 @@ import { api } from "`@/apis`";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   useEffect(() => {
+    const interval = setInterval(
+      () => auth.currentUser?.getIdToken(true),
+      1000 * 60 * 59
+    );
+
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
     const unsubscribe = auth.onIdTokenChanged(async (user) => {
       if (user) {
         const token = await user?.getIdToken();
