@@ -67,13 +67,13 @@ export default function Page(props: any) {
 
   const confirmHandler = async () => {
     if (
-      values.plan.length < 100 ||
-      values.chiefComplaint.length < 100 ||
-      values.medicalHistory.length < 100 ||
-      values.currentMedication.length < 100 ||
-      values.assessment.length < 100 ||
-      values.triage.length < 100 ||
-      values.doctorNote.length < 100
+      values.plan.length < 50 ||
+      values.chiefComplaint.length < 50 ||
+      values.medicalHistory.length < 50 ||
+      values.currentMedication.length < 50 ||
+      values.assessment.length < 50 ||
+      values.triage.length < 50 ||
+      values.doctorNote.length < 50
     ) {
       setShowError(true);
     } else {

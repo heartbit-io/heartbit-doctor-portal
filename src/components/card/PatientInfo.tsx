@@ -33,6 +33,7 @@ const patientInfo = [
 ];
 
 const PatientInfo = () => {
+  return null;
   return (
     <Box
       bgcolor={"#F2F2F7"}
