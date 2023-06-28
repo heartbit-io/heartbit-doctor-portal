@@ -18,7 +18,7 @@ import {
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-const inputs = [
+const illnessInputs = [
   { title: "Chief Complaint", type: "chiefComplaint" },
   { title: "Medical History", type: "medicalHistory" },
   { title: "Current Medication", type: "currentMedication" },
@@ -27,6 +27,8 @@ const inputs = [
   { title: "Triage", type: "triage" },
   { title: "Doctor’s Note", type: "doctorNote" },
 ];
+
+const generalInputs = [{ title: "Your answer", type: "doctorNote" }];
 
 export default function Page(props: any) {
   const { questionId } = props.searchParams;
@@ -67,13 +69,15 @@ export default function Page(props: any) {
 
   const confirmHandler = async () => {
     if (
-      values.plan.length < 50 ||
-      values.chiefComplaint.length < 50 ||
-      values.medicalHistory.length < 50 ||
-      values.currentMedication.length < 50 ||
-      values.assessment.length < 50 ||
-      values.triage.length < 50 ||
-      values.doctorNote.length < 50
+      (question.type === "general" && values.doctorNote.length < 50) ||
+      (question.type === "illness" &&
+        (values.plan.length < 50 ||
+          values.chiefComplaint.length < 50 ||
+          values.medicalHistory.length < 50 ||
+          values.currentMedication.length < 50 ||
+          values.assessment.length < 50 ||
+          values.triage.length < 50 ||
+          values.doctorNote.length < 50))
     ) {
       setShowError(true);
     } else {
@@ -100,6 +104,8 @@ export default function Page(props: any) {
   };
 
   if (loading) return <Loading />;
+
+  const inputs = question.type === "general" ? generalInputs : illnessInputs;
   return (
     <Fade in={!loading} timeout={700}>
       <Box>
