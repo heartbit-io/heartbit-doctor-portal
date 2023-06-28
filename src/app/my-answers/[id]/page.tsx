@@ -81,19 +81,22 @@ const Page = ({ params }: Props) => {
               justifyContent={"space-between"}
             >
               <Stack flex={1}>
-                {answerDetails.map((el) => (
-                  <Box key={el.type}>
-                    <Box mt={4} mb={4}>
-                      <Typography sx={{ fontWeight: "bold" }} mb={3}>
-                        {el.title}
-                      </Typography>
-                      <Typography whiteSpace={"break-spaces"}>
-                        {answer[el?.type]}
-                      </Typography>
-                    </Box>
-                    <Divider />
-                  </Box>
-                ))}
+                {answerDetails.map(
+                  (el) =>
+                    !!answer[el?.type] && (
+                      <Box key={el.type}>
+                        <Box mt={4} mb={4}>
+                          <Typography sx={{ fontWeight: "bold" }} mb={3}>
+                            {el.title}
+                          </Typography>
+                          <Typography whiteSpace={"break-spaces"}>
+                            {answer[el?.type]}
+                          </Typography>
+                        </Box>
+                        <Divider />
+                      </Box>
+                    )
+                )}
               </Stack>
               <PatientInfo />
             </Box>
