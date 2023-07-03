@@ -53,13 +53,13 @@ export default function Page(props: any) {
         if (res.success && res.statusCode === 200) {
           setQuestion(res.data);
           setValues({
-            chiefComplaint: res.data.chiefComplaint || "",
-            medicalHistory: res.data.medicalHistory || "",
-            currentMedication: res.data.currentMedications,
-            assessment: res.data.assessment || "",
-            plan: res.data.plan || "",
-            triage: res.data.triage || "",
-            doctorNote: res.data.doctorNote || "",
+            chiefComplaint: res.data.aiJsonReply?.chiefComplaint || "",
+            medicalHistory: res.data.aiJsonReply?.medicalHistory || "",
+            currentMedication: res.data.aiJsonReply?.currentMedications,
+            assessment: res.data.aiJsonReply?.assessment || "",
+            plan: res.data.aiJsonReply?.plan || "",
+            triage: res.data.aiJsonReply?.triage || "",
+            doctorNote: res.data.aiJsonReply?.doctorNote || "",
           });
         }
       })
@@ -123,7 +123,7 @@ export default function Page(props: any) {
               WebkitLineClamp: 1,
             }}
           >
-            {question?.title}
+            {question?.aiJsonReply?.title}
           </Typography>
           <Box sx={{ background: "#fff" }} p={5}>
             <DoubleButton
