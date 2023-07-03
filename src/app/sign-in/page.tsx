@@ -1,6 +1,12 @@
 "use client";
 import React, { useState } from "react";
-import { Box, TextField } from "@mui/material";
+import {
+  Box,
+  CircularProgress,
+  Link,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import { auth } from "`@/firebase`";
 import { sendSignInLinkToEmail } from "firebase/auth";
@@ -36,6 +42,7 @@ const Page = () => {
     <Box
       height="100vh"
       display="flex"
+      flexDirection={"column"}
       justifyContent={"center"}
       alignItems={"center"}
     >
@@ -46,12 +53,31 @@ const Page = () => {
           onChange={(e) => onEmailChange(e.target.value)}
           fullWidth
           size="small"
-          style={{ backgroundColor: "#fff", marginTop: 30, marginBottom: 10 }}
+          placeholder="Your email address"
+          style={{
+            backgroundColor: "#fff",
+            marginTop: 30,
+            marginBottom: 10,
+            borderRadius: 14,
+          }}
+          InputProps={{
+            style: {
+              borderRadius: 14,
+            },
+            sx: {
+              "& input": {
+                borderRadius: 14,
+                textAlign: "center",
+              },
+            },
+          }}
         />
         <LoadingButton
           style={{
-            backgroundColor: isValidEmail ? "#F68F2A" : "#E5E5EA",
-            color: isValidEmail ? "#fff" : "#fff",
+            backgroundColor: "#F68F2A",
+            color: "#ffff",
+            opacity: isValidEmail ? 1 : 0.4,
+            borderRadius: 14,
           }}
           fullWidth
           size="large"
@@ -62,6 +88,43 @@ const Page = () => {
           Sign-in
         </LoadingButton>
       </Box>
+      <Box>
+        <Typography
+          textAlign={"center"}
+          fontWeight={"bold"}
+          variant="body1"
+          mt={3}
+          mb={2}
+        >
+          You'll need to be verified as a doctor to sign-in using the path
+          below.
+        </Typography>
+        <Typography textAlign={"center"} variant="body1">
+          1. Go to{" "}
+          <Link
+            href="https://testflight.apple.com/join/ZXzhTjIp"
+            style={{ color: "#FF2D55", textDecoration: "none" }}
+          >
+            HeartBit app
+          </Link>
+        </Typography>
+        <Typography textAlign={"center"} variant="body1">
+          2. Click Menu (Upper-right corner)
+        </Typography>
+        <Typography textAlign={"center"} variant="body1">
+          3. Click Your email address
+        </Typography>
+        <Typography textAlign={"center"} variant="body1">
+          4. Click ‘Are you a doctor?’
+        </Typography>
+      </Box>
+
+      {loading && (
+        <CircularProgress
+          size={100}
+          sx={{ position: "absolute", color: "#EE8223" }}
+        />
+      )}
     </Box>
   );
 };
