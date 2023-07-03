@@ -11,6 +11,7 @@ import MenuItem from "@mui/material/MenuItem";
 import { useRouter } from "next/navigation";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "`@/firebase`";
+import { Link } from "@mui/material";
 
 const settings = ["Sign-out"];
 
@@ -26,7 +27,9 @@ function NavBar() {
       sx={{ background: "#fff", padding: "0 40px" }}
     >
       <Toolbar disableGutters>
-        <img src="/img/logo.svg" />
+        <Link href="/take-question">
+          <img src="/img/logo.svg" />
+        </Link>
         <Box
           sx={{
             display: "flex",
