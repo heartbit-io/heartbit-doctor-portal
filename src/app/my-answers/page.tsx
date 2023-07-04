@@ -16,15 +16,20 @@ import {
 import { getMyAnswers } from "`@/apis/questionApi`";
 import moment from "moment";
 import { useRouter } from "next/navigation";
+import { getBtcRates } from "`@/apis/coinApi`";
 
 export default function Page() {
   const router = useRouter();
   const [offset, setOffset] = useState(0);
   const [answers, setAnswers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [USDPerSat, setUSDPerSat] = useState(0);
 
   useEffect(() => {
     fetchMyAnswers();
+    getBtcRates().then((res) =>
+      setUSDPerSat(res.data?.customSatoshi as number)
+    );
   }, []);
 
   const fetchMyAnswers = async () => {
@@ -111,9 +116,28 @@ export default function Page() {
                           </Typography>
                         </TableCell>
                         <TableCell align="right">
-                          <Typography variant="body2" whiteSpace={"nowrap"}>
-                            {el?.bountyAmount.toLocaleString()} sats
-                          </Typography>
+                          <Box
+                            display={"flex"}
+                            flexDirection={"column"}
+                            justifyContent={"center"}
+                            alignItems={"center"}
+                          >
+                            <Typography variant="body2" whiteSpace={"nowrap"}>
+                              {el?.bountyAmount.toLocaleString()} sats
+                            </Typography>
+                            <Typography
+                              variant="caption"
+                              color={"#8E8E93"}
+                              whiteSpace={"nowrap"}
+                            >
+                              $
+                              {(
+                                Number(el?.bountyAmount) * USDPerSat
+                              ).toLocaleString(undefined, {
+                                maximumFractionDigits: 2,
+                              })}
+                            </Typography>
+                          </Box>
                         </TableCell>
                         <TableCell align="right">
                           <Typography variant="body2" whiteSpace={"nowrap"}>
