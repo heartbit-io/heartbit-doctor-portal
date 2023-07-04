@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 
 import { getQuestion } from "`@/apis/questionApi`";
 import { useRouter } from "next/navigation";
+import { getBtcRates } from "`@/apis/coinApi`";
 
 export default function Page() {
   const router = useRouter();
@@ -19,9 +20,13 @@ export default function Page() {
   const [err, setErr] = useState();
   const [loading, setLoading] = useState(true);
   const [offset, setOffset] = useState(1);
+  const [USDPerSat, setUSDPerSat] = useState(0);
 
   useEffect(() => {
     fetchQuestion();
+    getBtcRates().then((res) =>
+      setUSDPerSat(res.data?.customSatoshi as number)
+    );
   }, []);
 
   const fetchQuestion = async () => {
@@ -63,7 +68,11 @@ export default function Page() {
             </Typography>
             <Box sx={{ background: "#fff" }} p={5}>
               <DoubleButton
-                bounty={question?.bountyAmount}
+                bounty={`${question?.bountyAmount.toLocaleString()} sats ($${(
+                  question?.bountyAmount * USDPerSat
+                ).toLocaleString(undefined, {
+                  maximumFractionDigits: 2,
+                })})`}
                 date={question?.createdAt}
                 cancelBtn={{ text: "Pass", onClick: fetchQuestion }}
                 confirmBtn={{

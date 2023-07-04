@@ -38,7 +38,7 @@ const DoubleButton = ({
         {!!bounty && (
           <Stack spacing={1} direction="row">
             <Typography sx={{ fontWeight: "bold" }}>Bounty:</Typography>
-            <Typography>{bounty.toLocaleString()} sats</Typography>
+            <Typography>{bounty}</Typography>
           </Stack>
         )}
         {!!date && (
