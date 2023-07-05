@@ -1,4 +1,4 @@
-import { Container } from "@mui/material";
+import { CircularProgress, Container } from "@mui/material";
 import React from "react";
 
 const Loading = () => {
@@ -13,7 +13,10 @@ const Loading = () => {
         height: "100vh",
       }}
     >
-      <img src="/gif/loading_dot.gif" style={{ background: "red" }} />
+      <CircularProgress
+        size={100}
+        sx={{ position: "absolute", color: "#EE8223" }}
+      />
     </Container>
   );
 };
