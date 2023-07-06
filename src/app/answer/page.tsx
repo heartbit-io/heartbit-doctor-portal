@@ -7,6 +7,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import { getBtcRates } from "`@/apis/coinApi`";
 import { answer, getQuestionDetails } from "`@/apis/questionApi`";
 import {
   DoubleButton,
@@ -36,6 +37,7 @@ export default function Page(props: any) {
   const [showError, setShowError] = useState(false);
   const [loading, setLoading] = useState(true);
   const [answering, setAnswering] = useState(false);
+  const [USDPerSat, setUSDPerSat] = useState(0);
   const [question, setQuestion] = useState<any>();
   const [values, setValues] = useState<any>({
     chiefComplaint: "",
@@ -65,6 +67,10 @@ export default function Page(props: any) {
       })
       .catch((err) => {})
       .finally(() => setLoading(false));
+
+    getBtcRates().then((res) =>
+      setUSDPerSat(res.data?.customSatoshi as number)
+    );
   }, [questionId]);
 
   const confirmHandler = async () => {
@@ -127,7 +133,11 @@ export default function Page(props: any) {
           </Typography>
           <Box sx={{ background: "#fff" }} p={5}>
             <DoubleButton
-              bounty={question?.bountyAmount}
+              bounty={`${question?.bountyAmount.toLocaleString()} sats ($${(
+                question?.bountyAmount * USDPerSat
+              ).toLocaleString(undefined, {
+                maximumFractionDigits: 2,
+              })})`}
               date={question?.createdAt}
               cancelBtn={{ text: "Cancel", onClick: () => router.back() }}
               confirmBtn={{
