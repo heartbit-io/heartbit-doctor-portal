@@ -7,6 +7,7 @@ import {
   Divider,
   Stack,
 } from "@mui/material";
+import { getBtcRates } from "`@/apis/coinApi`";
 import { getAnswerDetails } from "`@/apis/questionApi`";
 import {
   BackButton,
@@ -36,6 +37,7 @@ type Props = {
 const Page = ({ params }: Props) => {
   const [answer, setAnswer] = useState<any>("");
   const [loading, setLoading] = useState(true);
+  const [USDPerSat, setUSDPerSat] = useState(0);
 
   useEffect(() => {
     getAnswerDetails(params.id)
@@ -46,6 +48,10 @@ const Page = ({ params }: Props) => {
       })
       .catch((err) => {})
       .finally(() => setLoading(false));
+
+    getBtcRates().then((res) =>
+      setUSDPerSat(res.data?.customSatoshi as number)
+    );
   }, [params.id]);
 
   if (loading) return <Loading />;
@@ -71,7 +77,11 @@ const Page = ({ params }: Props) => {
           </Typography>
           <Box sx={{ background: "#fff" }} p={5}>
             <DoubleButton
-              bounty={answer?.bountyAmount}
+              bounty={`${answer?.bountyAmount.toLocaleString()} sats ($${(
+                answer?.bountyAmount * USDPerSat
+              ).toLocaleString(undefined, {
+                maximumFractionDigits: 2,
+              })})`}
               date={answer?.createdAt}
             />
             <Divider />
