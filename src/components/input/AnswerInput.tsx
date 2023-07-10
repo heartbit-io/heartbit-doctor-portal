@@ -26,9 +26,9 @@ const AnswerInput = ({
         value={description}
         fullWidth
         onChange={(e) => onTextChange(e.target.value)}
-        error={showError && description.length < 100}
+        error={showError && description?.length < 100}
         helperText={
-          showError && description.length < 100 ? "This field is required" : ""
+          showError && description?.length < 100 ? "This field is required" : ""
         }
       />
     </Box>
