@@ -103,7 +103,7 @@ export default function Page(props: any) {
         doctorNote: values.doctorNote,
         status: "done",
       })
-        .then((res) => router.replace("/my-answers"))
+        .then((res) => router.replace("/take-question"))
         .catch((err) => {})
         .finally(() => setAnswering(false));
     }
