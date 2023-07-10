@@ -15,6 +15,7 @@ type Props = {
     text: string;
     onClick: () => void;
     style?: any;
+    disabled?: boolean;
   };
   loading?: boolean;
 };
@@ -65,6 +66,7 @@ const DoubleButton = ({
           <LoadingButton
             variant="contained"
             size="large"
+            disabled={confirmBtn.disabled}
             style={{
               backgroundColor: "#34C759",
               padding: "8px 60px",

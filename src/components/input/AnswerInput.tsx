@@ -5,15 +5,10 @@ type Props = {
   title: string;
   description: string;
   onTextChange: (val: string) => void;
-  showError: boolean;
+  errorMsg: string;
 };
 
-const AnswerInput = ({
-  title,
-  description,
-  onTextChange,
-  showError,
-}: Props) => {
+const AnswerInput = ({ title, description, onTextChange, errorMsg }: Props) => {
   return (
     <Box mt={4} mb={4}>
       <Typography sx={{ fontWeight: "bold" }} mb={3}>
@@ -26,10 +21,8 @@ const AnswerInput = ({
         value={description}
         fullWidth
         onChange={(e) => onTextChange(e.target.value)}
-        error={showError && description?.length < 100}
-        helperText={
-          showError && description?.length < 100 ? "This field is required" : ""
-        }
+        error={!!errorMsg}
+        helperText={errorMsg}
       />
     </Box>
   );

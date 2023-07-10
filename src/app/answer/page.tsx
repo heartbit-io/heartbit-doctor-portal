@@ -20,21 +20,26 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const illnessInputs = [
-  { title: "Chief Complaint", type: "chiefComplaint" },
-  { title: "Medical History", type: "medicalHistory" },
-  { title: "Current Medication", type: "currentMedication" },
-  { title: "Assessment", type: "assessment" },
-  { title: "Plan", type: "plan" },
-  { title: "Triage", type: "triage" },
-  { title: "Doctor’s Note", type: "doctorNote" },
+  { title: "Chief Complaint", type: "chiefComplaint", minLength: 10 },
+  { title: "Medical History (Optional)", type: "medicalHistory", minLength: 0 },
+  {
+    title: "Current Medication (Optional)",
+    type: "currentMedication",
+    minLength: 0,
+  },
+  { title: "Assessment", type: "assessment", minLength: 20 },
+  { title: "Plan", type: "plan", minLength: 20 },
+  { title: "Triage", type: "triage", minLength: 20 },
+  { title: "Doctor’s Note", type: "doctorNote", minLength: 50 },
 ];
 
-const generalInputs = [{ title: "Your answer", type: "doctorNote" }];
+const generalInputs = [
+  { title: "Your answer", type: "doctorNote", minLength: 50 },
+];
 
 export default function Page(props: any) {
   const { questionId } = props.searchParams;
   const router = useRouter();
-  const [showError, setShowError] = useState(false);
   const [loading, setLoading] = useState(true);
   const [answering, setAnswering] = useState(false);
   const [USDPerSat, setUSDPerSat] = useState(0);
@@ -74,44 +79,38 @@ export default function Page(props: any) {
   }, [questionId]);
 
   const confirmHandler = async () => {
-    if (
-      (question.type === "general" && values.doctorNote.length < 50) ||
-      (question.type === "illness" &&
-        (values.plan.length < 50 ||
-          values.chiefComplaint.length < 50 ||
-          values.medicalHistory.length < 50 ||
-          values.currentMedication.length < 50 ||
-          values.assessment.length < 50 ||
-          values.triage.length < 50 ||
-          values.doctorNote.length < 50))
-    ) {
-      setShowError(true);
-    } else {
-      setShowError(false);
-      setAnswering(true);
-      answer({
-        userId: question.userId,
-        content: question?.content,
-        questionId: questionId,
-        title: question.title,
-        plan: values.plan,
-        majorComplaint: values.chiefComplaint,
-        medicalHistory: values.medicalHistory,
-        currentMedications: values.currentMedication,
-        assessment: values.assessment,
-        triage: values.triage,
-        doctorNote: values.doctorNote,
-        status: "done",
-      })
-        .then((res) => router.replace("/take-question"))
-        .catch((err) => {})
-        .finally(() => setAnswering(false));
-    }
+    setAnswering(true);
+    answer({
+      userId: question.userId,
+      content: question?.content,
+      questionId: questionId,
+      title: question.title,
+      plan: values.plan,
+      majorComplaint: values.chiefComplaint,
+      medicalHistory: values.medicalHistory,
+      currentMedications: values.currentMedication,
+      assessment: values.assessment,
+      triage: values.triage,
+      doctorNote: values.doctorNote,
+      status: "done",
+    })
+      .then((res) => router.replace("/take-question"))
+      .catch((err) => {})
+      .finally(() => setAnswering(false));
   };
 
   if (loading) return <Loading />;
 
   const inputs = question.type === "general" ? generalInputs : illnessInputs;
+  const disabled =
+    (question.type === "general" && values.doctorNote.length < 50) ||
+    (question.type === "illness" &&
+      (values.chiefComplaint.length < 10 ||
+        values.assessment.length < 20 ||
+        values.plan.length < 20 ||
+        values.triage.length < 20 ||
+        values.doctorNote.length < 50));
+
   return (
     <Fade in={!loading} timeout={700}>
       <Box>
@@ -143,7 +142,8 @@ export default function Page(props: any) {
               confirmBtn={{
                 text: "Confirm",
                 onClick: confirmHandler,
-                style: { background: "#007AFF" },
+                style: { background: "#007AFF", opacity: disabled ? 0.4 : 1 },
+                disabled: disabled,
               }}
               loading={answering}
             />
@@ -173,7 +173,11 @@ export default function Page(props: any) {
                     onTextChange={(text) =>
                       setValues({ ...values, [el.type]: text })
                     }
-                    showError={showError}
+                    errorMsg={
+                      values[el.type]?.length < el?.minLength
+                        ? `Please write at least ${el.minLength} characters.`
+                        : ""
+                    }
                   />
                 ))}
               </Stack>
@@ -185,7 +189,8 @@ export default function Page(props: any) {
               confirmBtn={{
                 text: "Confirm",
                 onClick: confirmHandler,
-                style: { background: "#007AFF" },
+                style: { background: "#007AFF", opacity: disabled ? 0.4 : 1 },
+                disabled: disabled,
               }}
               loading={answering}
             />
