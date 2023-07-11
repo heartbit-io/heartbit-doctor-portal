@@ -100,38 +100,43 @@ export default function Page() {
                     <Divider />
                   </Box>
 
-                  <Box>
-                    <Box mt={4} mb={4}>
-                      <Typography sx={{ fontWeight: "bold" }} mb={3}>
-                        Chief Complaint
-                      </Typography>
-                      <Typography whiteSpace={"break-spaces"}>
-                        {question?.chiefComplaint}
-                      </Typography>
-                    </Box>
-                    <Divider />
-                  </Box>
-
-                  <Box>
-                    <Box mt={4} mb={4} sx={{ opacity: 0.3 }}>
-                      <Typography sx={{ fontWeight: "bold" }} mb={3}>
-                        Medical History
-                      </Typography>
-                    </Box>
-                    <Divider />
-                  </Box>
+                  {question.type === "illness" && (
+                    <>
+                      <Box>
+                        <Box mt={4} mb={4}>
+                          <Typography sx={{ fontWeight: "bold" }} mb={3}>
+                            Chief Complaint
+                          </Typography>
+                          <Typography whiteSpace={"break-spaces"}>
+                            {question?.chiefComplaint}
+                          </Typography>
+                        </Box>
+                        <Divider />
+                      </Box>
+                      <Box>
+                        <Box mt={4} mb={4} sx={{ opacity: 0.3 }}>
+                          <Typography sx={{ fontWeight: "bold" }} mb={3}>
+                            Medical History
+                          </Typography>
+                        </Box>
+                        <Divider />
+                      </Box>
+                    </>
+                  )}
                 </Box>
                 <PatientInfo />
               </Box>
-              <Typography
-                variant="h5"
-                textAlign={"center"}
-                color={"#F68F2A"}
-                pt={4}
-              >
-                You can see the full information if you take this question to
-                leave an answer.
-              </Typography>
+              {question.type === "illness" && (
+                <Typography
+                  variant="h5"
+                  textAlign={"center"}
+                  color={"#F68F2A"}
+                  pt={4}
+                >
+                  You can see the full information if you take this question to
+                  leave an answer.
+                </Typography>
+              )}
             </Box>
           </Container>
         )}
