@@ -19,12 +19,12 @@ import {
 import React, { useEffect, useState } from "react";
 
 const answerDetails = [
-  { title: "Chief Complaint", type: "chiefComplaint" },
+  { title: "Chief Complaint", type: "majorComplaint" },
   { title: "Medical History", type: "medicalHistory" },
-  { title: "Current Medication", type: "currentMedications" },
+  { title: "Current Medication", type: "currentMedication" },
   { title: "Assessment", type: "assessment" },
   { title: "Plan", type: "plan" },
-  { title: "Triage", type: "triage" },
+  { title: "Guide", type: "triage" },
   { title: "Doctor’s Note", type: "doctorNote" },
 ];
 
@@ -91,19 +91,25 @@ const Page = ({ params }: Props) => {
               justifyContent={"space-between"}
             >
               <Stack flex={1}>
+                <Box mt={4} mb={4}>
+                  <Typography sx={{ fontWeight: "bold" }} mb={3}>
+                    Question
+                  </Typography>
+                  <Typography whiteSpace={"break-spaces"}>
+                    {answer.content}
+                  </Typography>
+                </Box>
+                <Divider />
                 {answerDetails.map(
                   (el) =>
                     !!answer[el?.type] && (
-                      <Box key={el.type}>
-                        <Box mt={4} mb={4}>
-                          <Typography sx={{ fontWeight: "bold" }} mb={3}>
-                            {el.title}
-                          </Typography>
-                          <Typography whiteSpace={"break-spaces"}>
-                            {answer[el?.type]}
-                          </Typography>
-                        </Box>
-                        <Divider />
+                      <Box key={el.type} mt={4} mb={4}>
+                        <Typography sx={{ fontWeight: "bold" }} mb={3}>
+                          {el.title}
+                        </Typography>
+                        <Typography whiteSpace={"break-spaces"}>
+                          {answer[el?.type]}
+                        </Typography>
                       </Box>
                     )
                 )}
