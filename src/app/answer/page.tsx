@@ -29,7 +29,7 @@ const illnessInputs = [
   },
   { title: "Assessment", type: "assessment", minLength: 20 },
   { title: "Plan", type: "plan", minLength: 20 },
-  { title: "Triage", type: "triage", minLength: 20 },
+  { title: "Guide", type: "triageGuide", minLength: 20 },
   { title: "Doctor’s Note", type: "doctorNote", minLength: 50 },
 ];
 
@@ -50,7 +50,7 @@ export default function Page(props: any) {
     currentMedication: "",
     assessment: "",
     plan: "",
-    triage: "",
+    triageGuide: "",
     doctorNote: "",
   });
 
@@ -65,7 +65,7 @@ export default function Page(props: any) {
             currentMedication: res.data.aiJsonReply?.currentMedications,
             assessment: res.data.aiJsonReply?.assessment || "",
             plan: res.data.aiJsonReply?.plan || "",
-            triage: res.data.aiJsonReply?.triage || "",
+            triageGuide: res.data.aiJsonReply?.triageGuide || "",
             doctorNote: res.data.aiJsonReply?.doctorNote || "",
           });
         }
@@ -90,7 +90,7 @@ export default function Page(props: any) {
       medicalHistory: values.medicalHistory,
       currentMedications: values.currentMedication,
       assessment: values.assessment,
-      triage: values.triage,
+      triage: values.triageGuide,
       doctorNote: values.doctorNote,
       status: "done",
     })
@@ -108,7 +108,7 @@ export default function Page(props: any) {
       (values.chiefComplaint.length < 10 ||
         values.assessment.length < 20 ||
         values.plan.length < 20 ||
-        values.triage.length < 20 ||
+        values.triageGuide.length < 20 ||
         values.doctorNote.length < 50));
 
   return (
