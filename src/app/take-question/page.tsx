@@ -27,6 +27,12 @@ export default function Page() {
     getBtcRates().then((res) =>
       setUSDPerSat(res.data?.customSatoshi as number)
     );
+
+    const interval = setInterval(() => {
+      fetchQuestion();
+    }, 1000 * 60 * 5);
+
+    return () => clearInterval(interval);
   }, []);
 
   const fetchQuestion = async () => {
