@@ -19,7 +19,7 @@ export default function Page() {
   const [question, setQuestion] = useState<any>();
   const [err, setErr] = useState();
   const [loading, setLoading] = useState(true);
-  const [offset, setOffset] = useState(1);
+  const [questionIndex, setQuestionIndex] = useState(0);
   const [USDPerSat, setUSDPerSat] = useState(0);
 
   useEffect(() => {
@@ -37,11 +37,11 @@ export default function Page() {
 
   const fetchQuestion = async () => {
     setLoading(true);
-    getQuestion(offset)
+    getQuestion(questionIndex)
       .then((res) => {
         if (res.success && res.statusCode === 200) {
           setQuestion(res.data);
-          setOffset(offset + 1);
+          setQuestionIndex(questionIndex + 1);
         }
       })
       .catch((err) => setErr(err))

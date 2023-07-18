@@ -1,11 +1,11 @@
 import { api } from ".";
 
-export const getQuestion = async (offset: number) => {
+export const getQuestion = async (index: number) => {
   try {
     api.defaults.headers.common[
       "Authorization"
     ] = `Bearer ${localStorage.getItem("token")}`;
-    const res = await api.get(`doctors/questions?limit=${1}&offset=${offset}`);
+    const res = await api.get(`doctors/questions?index=${index}`);
     console.log("GET QUESTION>>>>>>>>> ", res);
     return res.data;
   } catch (err) {
