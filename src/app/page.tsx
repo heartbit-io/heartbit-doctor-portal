@@ -7,9 +7,12 @@ import { isSignInWithEmailLink, signInWithEmailLink } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { getUser } from "`@/apis/userApi`";
 import { api } from "`@/apis`";
+import { useAppDispatch } from "`@/hooks/hooks`";
+import { setUserData } from "`@/store/slices/userSlice`";
 
 const Page = () => {
   const router = useRouter();
+  const dispatch = useAppDispatch();
   const [user, loading] = useAuthState(auth);
 
   useEffect(() => {
@@ -47,6 +50,7 @@ const Page = () => {
     getUser(user.email)
       .then(async (res) => {
         if (res.data.role === "doctor" || res.data.role === "admin") {
+          dispatch(setUserData(res.data));
           router.push("take-question");
         } else {
           alert("Authentication failed. User is not verified as a doctor");
