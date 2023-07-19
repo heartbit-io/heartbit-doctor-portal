@@ -63,3 +63,15 @@ export const answer = async (data: any) => {
     return err;
   }
 };
+
+export const assignQuestion = async (data: any) => {
+  try {
+    api.defaults.headers.common[
+      "Authorization"
+    ] = `Bearer ${localStorage.getItem("token")}`;
+    const res = await api.post(`/doctors/assign-question`, data);
+    return res.data;
+  } catch (err) {
+    return err;
+  }
+};
