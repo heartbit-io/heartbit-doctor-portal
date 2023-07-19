@@ -1,10 +1,12 @@
 "use client";
 import { useEffect } from "react";
-import { store } from "./";
+import { store } from "../store";
 import { Provider } from "react-redux";
 import { auth } from "`@/firebase`";
 import { api } from "`@/apis`";
 import { loadIntercom } from "next-intercom";
+import { isSignInWithEmailLink } from "firebase/auth";
+import { getUserData } from "`@/store/slices/userSlice`";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   useEffect(() => {
@@ -23,14 +25,24 @@ export function Providers({ children }: { children: React.ReactNode }) {
         if (token) {
           localStorage.setItem("token", token);
           api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-          loadIntercom({
-            appId: "v55v85ev",
-            name: user.email,
-          });
+          if (user.email) {
+            store.dispatch(getUserData(user.email));
+            loadIntercom({
+              appId: "v55v85ev",
+              name: user.email,
+            });
+          }
         }
+      } else if (
+        !isSignInWithEmailLink(auth, window.location.href) &&
+        window.location.pathname !== "/sign-in"
+      ) {
+        window.location.replace("/sign-in");
       }
     });
-    return () => unsubscribe();
+    return () => {
+      unsubscribe();
+    };
   }, []);
 
   return <Provider store={store}>{children}</Provider>;
