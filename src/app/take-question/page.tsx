@@ -10,14 +10,15 @@ import {
 } from "`@/components`";
 import { useEffect, useState } from "react";
 
-import { getQuestion } from "`@/apis/questionApi`";
+import { assignQuestion, getQuestion } from "`@/apis/questionApi`";
 import { useRouter } from "next/navigation";
 import { getBtcRates } from "`@/apis/coinApi`";
+import { useAppSelector } from "`@/hooks/hooks`";
 
 export default function Page() {
   const router = useRouter();
+  const { userData } = useAppSelector((state) => state.user);
   const [question, setQuestion] = useState<any>();
-  const [err, setErr] = useState();
   const [loading, setLoading] = useState(true);
   const [questionIndex, setQuestionIndex] = useState(0);
   const [USDPerSat, setUSDPerSat] = useState(0);
@@ -41,11 +42,24 @@ export default function Page() {
       .then((res) => {
         if (res.success && res.statusCode === 200) {
           setQuestion(res.data);
+        } else {
           setQuestionIndex(questionIndex + 1);
+          alert(res.data.message);
         }
       })
-      .catch((err) => setErr(err))
+      .catch((err) => alert(err.message))
       .finally(() => setLoading(false));
+  };
+
+  const takeQuestionHandler = () => {
+    assignQuestion({ doctorId: userData.id, questionId: question.id })
+      .then((res) => {
+        if (res.success && res.statusCode === 200) {
+          router.push(`/answer?questionId=${question?.id}`);
+        } else {
+        }
+      })
+      .catch((err) => alert(err.message));
   };
 
   if (loading) return <Loading />;
@@ -83,8 +97,7 @@ export default function Page() {
                 cancelBtn={{ text: "Pass", onClick: fetchQuestion }}
                 confirmBtn={{
                   text: "Take",
-                  onClick: () =>
-                    router.push(`/answer?questionId=${question?.id}`),
+                  onClick: takeQuestionHandler,
                 }}
               />
               <Divider />

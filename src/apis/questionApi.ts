@@ -8,8 +8,8 @@ export const getQuestion = async (index: number) => {
     const res = await api.get(`doctors/questions?index=${index}`);
     console.log("GET QUESTION>>>>>>>>> ", res);
     return res.data;
-  } catch (err) {
-    return err;
+  } catch (err: any) {
+    return err.response;
   }
 };
 
