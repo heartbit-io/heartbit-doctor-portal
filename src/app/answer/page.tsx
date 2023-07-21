@@ -8,7 +8,11 @@ import {
   Typography,
 } from "@mui/material";
 import { getBtcRates } from "`@/apis/coinApi`";
-import { answer, getQuestionDetails } from "`@/apis/questionApi`";
+import {
+  answer,
+  cancelQuestion,
+  getQuestionDetails,
+} from "`@/apis/questionApi`";
 import {
   DoubleButton,
   PatientInfo,
@@ -16,6 +20,7 @@ import {
   AnswerInput,
   Loading,
 } from "`@/components`";
+import { useAppSelector } from "`@/hooks/hooks`";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -39,6 +44,7 @@ const generalInputs = [
 
 export default function Page(props: any) {
   const { questionId } = props.searchParams;
+  const { userData } = useAppSelector((state) => state.user);
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [answering, setAnswering] = useState(false);
@@ -99,6 +105,18 @@ export default function Page(props: any) {
       .finally(() => setAnswering(false));
   };
 
+  const cancelHandler = () => {
+    cancelQuestion({ doctorId: userData.id, questionId: question.id })
+      .then((res) => {
+        if (res.success && res.statusCode === 200) {
+          router.replace("/take-question");
+        } else {
+          console.log("Cancel question Error: ", res);
+        }
+      })
+      .catch((err) => console.log("Cancel question Error: ", err));
+  };
+
   if (loading) return <Loading />;
 
   const inputs = question.type === "general" ? generalInputs : illnessInputs;
@@ -138,7 +156,7 @@ export default function Page(props: any) {
                 maximumFractionDigits: 2,
               })})`}
               date={question?.createdAt}
-              cancelBtn={{ text: "Cancel", onClick: () => router.back() }}
+              cancelBtn={{ text: "Cancel", onClick: cancelHandler }}
               confirmBtn={{
                 text: "Confirm",
                 onClick: confirmHandler,
