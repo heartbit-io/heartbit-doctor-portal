@@ -43,9 +43,9 @@ export default function Page() {
         if (res.success && res.statusCode === 200) {
           setQuestion(res.data);
         } else {
-          setQuestionIndex(questionIndex + 1);
           alert(res.data.message);
         }
+        setQuestionIndex(questionIndex + 1);
       })
       .catch((err) => alert(err.message))
       .finally(() => setLoading(false));
@@ -56,7 +56,14 @@ export default function Page() {
       .then((res) => {
         if (res.success && res.statusCode === 200) {
           router.push(`/answer?questionId=${question?.id}`);
-        } else {
+        } else if (res.response.data.statusCode === 409) {
+          alert(
+            "Please cancel currently taken question to take another question."
+          );
+
+          router.push(
+            `/answer?questionId=${res.response.data.data.questionId}`
+          );
         }
       })
       .catch((err) => alert(err.message));
