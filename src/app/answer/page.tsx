@@ -64,20 +64,30 @@ export default function Page(props: any) {
     getQuestionDetails(questionId)
       .then((res) => {
         if (res.success && res.statusCode === 200) {
-          setQuestion(res.data);
-          setValues({
-            chiefComplaint: res.data.aiJsonReply?.chiefComplaint || "",
-            medicalHistory: res.data.aiJsonReply?.medicalHistory || "",
-            currentMedication: res.data.aiJsonReply?.currentMedications,
-            assessment: res.data.aiJsonReply?.assessment || "",
-            plan: res.data.aiJsonReply?.plan || "",
-            triageGuide: res.data.aiJsonReply?.triageGuide || "",
-            doctorNote: res.data.aiJsonReply?.doctorNote || "",
-          });
+          if (
+            res.data?.assignedDoctorId === userData?.id ||
+            userData?.role === "admin"
+          ) {
+            setQuestion(res.data);
+            setValues({
+              chiefComplaint: res.data.aiJsonReply?.chiefComplaint || "",
+              medicalHistory: res.data.aiJsonReply?.medicalHistory || "",
+              currentMedication: res.data.aiJsonReply?.currentMedications,
+              assessment: res.data.aiJsonReply?.assessment || "",
+              plan: res.data.aiJsonReply?.plan || "",
+              triageGuide: res.data.aiJsonReply?.triageGuide || "",
+              doctorNote: res.data.aiJsonReply?.doctorNote || "",
+            });
+            setLoading(false);
+          } else {
+            router.replace("/take-question");
+          }
         }
       })
-      .catch((err) => {})
-      .finally(() => setLoading(false));
+      .catch((err) => {
+        alert(err.message);
+        router.back();
+      });
 
     getBtcRates().then((res) =>
       setUSDPerSat(res.data?.customSatoshi as number)
