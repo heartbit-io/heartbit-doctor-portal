@@ -26,7 +26,16 @@ import { useEffect, useState } from "react";
 
 const illnessInputs = [
   { title: "Chief Complaint", type: "chiefComplaint", minLength: 10 },
-  { title: "Medical History (Optional)", type: "medicalHistory", minLength: 0 },
+  {
+    title: "History of Present Illness",
+    type: "presentIllness",
+    minLength: 10,
+  },
+  {
+    title: "Past Medical History (Optional)",
+    type: "pastMedicalHistory",
+    minLength: 0,
+  },
   {
     title: "Current Medication (Optional)",
     type: "currentMedication",
@@ -52,7 +61,8 @@ export default function Page(props: any) {
   const [question, setQuestion] = useState<any>();
   const [values, setValues] = useState<any>({
     chiefComplaint: "",
-    medicalHistory: "",
+    presentIllness: "",
+    pastMedicalHistory: "",
     currentMedication: "",
     assessment: "",
     plan: "",
@@ -71,7 +81,9 @@ export default function Page(props: any) {
             setQuestion(res.data);
             setValues({
               chiefComplaint: res.data.aiJsonReply?.chiefComplaint || "",
-              medicalHistory: res.data.aiJsonReply?.medicalHistory || "",
+              presentIllness: res.data.aiJsonReply?.presentIllness || "",
+              pastMedicalHistory:
+                res.data.aiJsonReply?.pastMedicalHistory || "",
               currentMedication: res.data.aiJsonReply?.currentMedications,
               assessment: res.data.aiJsonReply?.assessment || "",
               plan: res.data.aiJsonReply?.plan || "",
@@ -103,7 +115,8 @@ export default function Page(props: any) {
       title: question.title,
       plan: values.plan,
       majorComplaint: values.chiefComplaint,
-      medicalHistory: values.medicalHistory,
+      presentIllness: values.presentIllness,
+      pastMedicalHistory: values.pastMedicalHistory,
       currentMedications: values.currentMedication,
       assessment: values.assessment,
       triage: values.triageGuide,
@@ -134,6 +147,7 @@ export default function Page(props: any) {
     (question.type === "general" && values.doctorNote.length < 50) ||
     (question.type === "illness" &&
       (values.chiefComplaint.length < 10 ||
+        values.presentIllness.length < 10 ||
         values.assessment.length < 20 ||
         values.plan.length < 20 ||
         values.triageGuide.length < 20 ||
