@@ -41,9 +41,9 @@ const illnessInputs = [
     type: "currentMedication",
     minLength: 0,
   },
-  { title: "Assessment", type: "assessment", minLength: 20 },
-  { title: "Plan", type: "plan", minLength: 20 },
-  { title: "Guide", type: "triageGuide", minLength: 20 },
+  // { title: "Assessment", type: "assessment", minLength: 20 },
+  // { title: "Plan", type: "plan", minLength: 20 },
+  { title: "Advice by AI", type: "triageGuide", minLength: 20 },
   { title: "Doctor’s Note", type: "doctorNote", minLength: 50 },
 ];
 
@@ -220,6 +220,7 @@ export default function Page(props: any) {
                         ? `Please write at least ${el.minLength} characters.`
                         : ""
                     }
+                    disabled={el.type === "triageGuide"}
                   />
                 ))}
               </Stack>
