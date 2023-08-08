@@ -6,9 +6,16 @@ type Props = {
   description: string;
   onTextChange: (val: string) => void;
   errorMsg: string;
+  disabled?: boolean;
 };
 
-const AnswerInput = ({ title, description, onTextChange, errorMsg }: Props) => {
+const AnswerInput = ({
+  title,
+  description,
+  onTextChange,
+  errorMsg,
+  disabled,
+}: Props) => {
   return (
     <Box mt={4} mb={4}>
       <Typography sx={{ fontWeight: "bold" }} mb={3}>
@@ -23,6 +30,7 @@ const AnswerInput = ({ title, description, onTextChange, errorMsg }: Props) => {
         onChange={(e) => onTextChange(e.target.value)}
         error={!!errorMsg}
         helperText={errorMsg}
+        disabled={disabled}
       />
     </Box>
   );
