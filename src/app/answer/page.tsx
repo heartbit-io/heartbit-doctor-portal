@@ -43,7 +43,7 @@ const illnessInputs = [
   },
   // { title: "Assessment", type: "assessment", minLength: 20 },
   // { title: "Plan", type: "plan", minLength: 20 },
-  { title: "Advice by AI", type: "triageGuide", minLength: 20 },
+  { title: "Advice by AI", type: "triageGuide", minLength: 0 },
   { title: "Doctor’s Note", type: "doctorNote", minLength: 50 },
 ];
 
@@ -148,9 +148,6 @@ export default function Page(props: any) {
     (question.type === "illness" &&
       (values.chiefComplaint.length < 10 ||
         values.presentIllness.length < 10 ||
-        values.assessment.length < 20 ||
-        values.plan.length < 20 ||
-        values.triageGuide.length < 20 ||
         values.doctorNote.length < 50));
 
   return (
