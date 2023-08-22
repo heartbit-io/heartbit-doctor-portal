@@ -22,15 +22,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
     const unsubscribe = auth.onIdTokenChanged(async (user) => {
       if (user) {
         const token = await user?.getIdToken();
-        console.log(">>>>>>>>>>>>>>TOKEN", token);
         if (token) {
           localStorage.setItem("token", token);
-          console.log(
-            ">>>>>>>>>API HEADER PREVIOUS",
-            api.defaults.headers.common
-          );
           api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-          console.log(">>>>>>>>>API HEADER NEXT", api.defaults.headers.common);
           if (user.email) {
             store.dispatch(getUserData(user.email));
             loadIntercom({

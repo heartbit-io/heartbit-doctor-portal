@@ -6,7 +6,6 @@ export const getQuestion = async (index: number) => {
       "Authorization"
     ] = `Bearer ${localStorage.getItem("token")}`;
     const res = await api.get(`doctors/questions?index=${index}`);
-    console.log("GET QUESTION>>>>>>>>> ", res);
     return res.data;
   } catch (err: any) {
     return err.response;
@@ -19,7 +18,6 @@ export const getQuestionDetails = async (questionId: number) => {
       "Authorization"
     ] = `Bearer ${localStorage.getItem("token")}`;
     const res = await api.get(`doctors/questions/${questionId}`);
-    console.log("GET QUESTION DETAILS>>>>>>>>> ", res);
     return res.data;
   } catch (err) {
     return err;
