@@ -41,18 +41,28 @@ const Page = () => {
           textAlign={"center"}
           variant="body1"
           color={"#3A3A3C"}
+          mt={10}
+        >
+          Didn’t get your email or something not working? <br />
+          Check your spam folder or{" "}
+          <Link
+            style={{ textDecoration: "none" }}
+            variant="body1"
+            color={"#FF2D55"}
+            href="/sign-in"
+          >
+            Try again
+          </Link>
+          .
+        </Typography>
+        <Typography
+          textAlign={"center"}
+          variant="body2"
+          color={"#8E8E93"}
           mt={5}
         >
-          Didn’t get your email or something not working?
+          For the best experience, please use desktop.
         </Typography>
-        <Link
-          style={{ textDecoration: "none" }}
-          variant="body1"
-          color={"#FF2D55"}
-          href="/sign-in"
-        >
-          Try again
-        </Link>
       </Box>
     </Box>
   );
