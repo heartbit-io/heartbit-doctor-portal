@@ -14,9 +14,9 @@ const EmptyMyAnswers = () => {
       alignItems={"center"}
     >
       <Typography whiteSpace={"pre-line"} variant="body1" textAlign={"center"}>
-        {
-          "You haven't answered any questions yet.\nMake your first response to a patient's question."
-        }
+        You haven't answered any questions yet.
+        <br />
+        Make your first response to questions.
       </Typography>
       <Button
         variant="contained"
