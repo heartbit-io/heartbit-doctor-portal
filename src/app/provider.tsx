@@ -4,7 +4,7 @@ import { store } from "../store";
 import { Provider } from "react-redux";
 import { auth } from "`@/firebase`";
 import { api } from "`@/apis`";
-import { loadIntercom } from "next-intercom";
+// import { loadIntercom } from "next-intercom";
 import { isSignInWithEmailLink } from "firebase/auth";
 import { getUserData } from "`@/store/slices/userSlice`";
 
@@ -27,10 +27,10 @@ export function Providers({ children }: { children: React.ReactNode }) {
           api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
           if (user.email) {
             store.dispatch(getUserData(user.email));
-            loadIntercom({
-              appId: "v55v85ev",
-              name: user.email,
-            });
+            // loadIntercom({
+            //   appId: "v55v85ev",
+            //   name: user.email,
+            // });
           }
         }
       } else if (
