@@ -81,7 +81,7 @@ export default function Page(props: any) {
     <Fade in={!loading} timeout={700}>
       <Box>
         <NavBar />
-        {question ? (
+        {!question ? (
           <EmptyQuestion />
         ) : (
           <Container maxWidth={false}>
