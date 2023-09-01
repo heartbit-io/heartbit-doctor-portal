@@ -12,7 +12,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const interval = setInterval(
       () => auth.currentUser?.getIdToken(true),
-      1000 * 60 * 30
+      1000 * 60 * 59
     );
 
     return () => clearInterval(interval);
