@@ -49,7 +49,7 @@ export const getUserData =
     try {
       if (email) {
         const res: any = await getUser(email);
-        if (res.statusCode === 200 && res?.success) {
+        if (res?.statusCode === 200 && res?.success) {
           dispatch(setUserData(res.data));
           return true;
         } else {
