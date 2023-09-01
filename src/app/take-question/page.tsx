@@ -42,7 +42,7 @@ export default function Page(props: any) {
     setLoading(true);
     getQuestion(questionIndex)
       .then((res) => {
-        if (res.success && res.statusCode === 200) {
+        if (res?.success && res?.statusCode === 200) {
           setQuestion(res.data);
         } else {
           alert(res.data.message);
@@ -56,7 +56,7 @@ export default function Page(props: any) {
   const takeQuestionHandler = () => {
     assignQuestion({ doctorId: userData.id, questionId: question.id })
       .then((res) => {
-        if (res.success && res.statusCode === 200) {
+        if (res?.success && res?.statusCode === 200) {
           router.push(
             `/answer?questionId=${question?.id}&questionIndex=${
               questionIndex - 1

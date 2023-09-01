@@ -36,7 +36,7 @@ export default function Page() {
     setLoading(true);
     getMyAnswers(offset)
       .then((res) => {
-        if (res.success && res.statusCode === 200) {
+        if (res?.success && res?.statusCode === 200) {
           setAnswers(res.data);
         }
       })

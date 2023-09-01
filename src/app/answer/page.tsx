@@ -73,7 +73,7 @@ export default function Page(props: any) {
   useEffect(() => {
     getQuestionDetails(questionId)
       .then((res) => {
-        if (res.success && res.statusCode === 200) {
+        if (res?.success && res?.statusCode === 200) {
           if (
             res.data?.assignedDoctorId === userData?.id ||
             userData?.role === "admin"
@@ -131,7 +131,7 @@ export default function Page(props: any) {
   const cancelHandler = () => {
     cancelQuestion({ doctorId: userData.id, questionId: question.id })
       .then((res) => {
-        if (res.success && res.statusCode === 200) {
+        if (res?.success && res?.statusCode === 200) {
           router.replace(`/take-question?questionIndex=${questionIndex}`);
         } else {
           console.log("Cancel question Error: ", res);

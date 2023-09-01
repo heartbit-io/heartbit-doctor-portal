@@ -42,7 +42,7 @@ const Page = ({ params }: Props) => {
   useEffect(() => {
     getAnswerDetails(params.id)
       .then((res) => {
-        if (res.success && res.statusCode === 200) {
+        if (res?.success && res?.statusCode === 200) {
           setAnswer(res.data);
         }
       })
