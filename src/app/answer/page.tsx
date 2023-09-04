@@ -52,7 +52,7 @@ const generalInputs = [
 ];
 
 export default function Page(props: any) {
-  const { questionId, questionIndex } = props.searchParams;
+  const { questionId } = props.searchParams;
   const { userData } = useAppSelector((state) => state.user);
   const router = useRouter();
   const [loading, setLoading] = useState(true);
@@ -132,7 +132,7 @@ export default function Page(props: any) {
     cancelQuestion({ doctorId: userData.id, questionId: question.id })
       .then((res) => {
         if (res?.success && res?.statusCode === 200) {
-          router.replace(`/take-question?questionIndex=${questionIndex}`);
+          router.replace(`/take-question`);
         } else {
           console.log("Cancel question Error: ", res);
         }
