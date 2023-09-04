@@ -1,7 +1,6 @@
 import React from "react";
-import { Box, Button, Stack, Typography } from "@mui/material";
 import moment from "moment";
-import { LoadingButton } from "@mui/lab";
+import { styled } from "styled-components";
 
 type Props = {
   bounty?: string | number;
@@ -10,6 +9,7 @@ type Props = {
     text: string;
     onClick: () => void;
     style?: any;
+    disabled?: boolean;
   };
   confirmBtn?: {
     text: string;
@@ -17,71 +17,94 @@ type Props = {
     style?: any;
     disabled?: boolean;
   };
-  loading?: boolean;
 };
 
-const DoubleButton = ({
-  bounty,
-  date,
-  cancelBtn,
-  confirmBtn,
-  loading,
-}: Props) => {
+const DoubleButton = ({ bounty, date, cancelBtn, confirmBtn }: Props) => {
   return (
-    <Box
-      display={"flex"}
-      flexDirection={"row"}
-      alignItems={"center"}
-      justifyContent={"space-between"}
-      mb={4}
-    >
-      <Stack spacing={5} direction="row">
+    <Wrapper>
+      <Container>
         {!!bounty && (
-          <Stack spacing={1} direction="row">
-            <Typography sx={{ fontWeight: "bold" }}>Bounty:</Typography>
-            <Typography>{bounty}</Typography>
-          </Stack>
+          <>
+            <Key>Bounty:</Key>
+            <Value>{bounty}</Value>
+          </>
         )}
         {!!date && (
-          <Stack spacing={1} direction="row">
-            <Typography sx={{ fontWeight: "bold" }}>Date:</Typography>
-            <Typography>
-              {moment(date).format("h:mmA, Do MMMM YYYY")}
-            </Typography>
-          </Stack>
+          <>
+            <Key>Date:</Key>
+            <Value>{moment(date).format("h:mmA, Do MMMM YYYY")}</Value>
+          </>
         )}
-      </Stack>
-      <Stack spacing={1} direction="row">
-        {!!cancelBtn && (
-          <Button
-            variant="text"
-            size="large"
-            sx={{ color: "#3A3A3C", padding: "8px 60px", ...cancelBtn?.style }}
-            onClick={cancelBtn?.onClick}
-          >
-            {cancelBtn?.text}
-          </Button>
-        )}
-        {!!confirmBtn && (
-          <LoadingButton
-            variant="contained"
-            size="large"
-            disabled={confirmBtn.disabled}
-            style={{
-              backgroundColor: "#34C759",
-              padding: "8px 60px",
-              color: "#fff",
-              ...confirmBtn?.style,
-            }}
-            onClick={confirmBtn?.onClick}
-            loading={loading}
-          >
-            {confirmBtn?.text}
-          </LoadingButton>
-        )}
-      </Stack>
-    </Box>
+      </Container>
+
+      {!!cancelBtn && (
+        <Btn
+          disabled={cancelBtn.disabled}
+          onClick={cancelBtn?.onClick}
+          style={cancelBtn.style}
+        >
+          <BtnText>{cancelBtn?.text}</BtnText>
+        </Btn>
+      )}
+      {!!confirmBtn && (
+        <Btn
+          disabled={confirmBtn.disabled}
+          onClick={confirmBtn?.onClick}
+          style={{
+            marginLeft: 8,
+            backgroundColor: "#34C759",
+            ...confirmBtn.style,
+          }}
+        >
+          <BtnText color="#fff">{confirmBtn?.text}</BtnText>
+        </Btn>
+      )}
+    </Wrapper>
   );
 };
 
 export default DoubleButton;
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
+
+const Container = styled.div`
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+`;
+
+const Key = styled.p`
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 22px;
+  margin-right: 8px;
+`;
+
+const Value = styled.p`
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 22px;
+  margin-right: 32px;
+`;
+
+const Btn = styled.button`
+  display: flex;
+  width: 160px;
+  height: 48px;
+  border-radius: 10px;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  cursor: pointer;
+`;
+
+const BtnText = styled.div`
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 22px;
+  color: ${({ color }) => color || "#3A3A3C"};
+`;
