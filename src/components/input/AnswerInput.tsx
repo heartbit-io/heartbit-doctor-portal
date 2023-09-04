@@ -1,5 +1,6 @@
-import { Box, TextField, Typography } from "@mui/material";
 import React from "react";
+import { styled } from "styled-components";
+import { TextField } from "@mui/material";
 
 type Props = {
   title: string;
@@ -17,14 +18,12 @@ const AnswerInput = ({
   disabled,
 }: Props) => {
   return (
-    <Box mt={4} mb={4}>
-      <Typography sx={{ fontWeight: "bold" }} mb={3}>
-        {title}
-      </Typography>
+    <Wrapper>
+      <Label>{title}</Label>
       <TextField
         id="outlined-multiline-flexible"
         multiline
-        maxRows={10}
+        maxRows={15}
         value={description}
         fullWidth
         onChange={(e) => onTextChange(e.target.value)}
@@ -32,8 +31,18 @@ const AnswerInput = ({
         helperText={errorMsg}
         disabled={disabled}
       />
-    </Box>
+    </Wrapper>
   );
 };
 
 export default AnswerInput;
+
+const Wrapper = styled.div``;
+
+const Label = styled.p`
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 22px;
+  color: #1c1c1e;
+  margin-bottom: 8px;
+`;
