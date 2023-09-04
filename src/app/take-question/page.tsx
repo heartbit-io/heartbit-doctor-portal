@@ -15,14 +15,12 @@ import { useRouter } from "next/navigation";
 import { getBtcRates } from "`@/apis/coinApi`";
 import { useAppSelector } from "`@/hooks/hooks`";
 
-export default function Page(props: any) {
+export default function Page() {
   const router = useRouter();
   const { userData } = useAppSelector((state) => state.user);
   const [question, setQuestion] = useState<any>();
   const [loading, setLoading] = useState(true);
-  const [questionIndex, setQuestionIndex] = useState(
-    props.searchParams.questionIndex || 0
-  );
+  const [questionIndex, setQuestionIndex] = useState(0);
   const [USDPerSat, setUSDPerSat] = useState(0);
 
   useEffect(() => {
@@ -60,11 +58,7 @@ export default function Page(props: any) {
     assignQuestion({ doctorId: userData.id, questionId: question.id })
       .then((res) => {
         if (res?.success && res?.statusCode === 200) {
-          router.push(
-            `/answer?questionId=${question?.id}&questionIndex=${
-              questionIndex - 1
-            }`
-          );
+          router.push(`/answer?questionId=${question?.id}`);
         } else if (res.response.data.statusCode === 409) {
           alert(
             "Please cancel currently taken question to take another question."
