@@ -1,13 +1,7 @@
 "use client";
 
 import { Box, Container, Divider, Fade, Typography } from "@mui/material";
-import {
-  DoubleButton,
-  PatientInfo,
-  NavBar,
-  Loading,
-  EmptyQuestion,
-} from "`@/components`";
+import { DoubleButton, NavBar, Loading, EmptyQuestion } from "`@/components`";
 import { useEffect, useState } from "react";
 
 import { assignQuestion, getQuestion } from "`@/apis/questionApi`";
@@ -82,21 +76,7 @@ export default function Page() {
           <EmptyQuestion />
         ) : (
           <Container maxWidth={false}>
-            <Typography
-              variant="h3"
-              mt={5}
-              mb={5}
-              sx={{
-                fontWeight: "bold",
-                display: "-webkit-box",
-                overflow: "hidden",
-                WebkitBoxOrient: "vertical",
-                WebkitLineClamp: 1,
-              }}
-            >
-              {question?.title}
-            </Typography>
-            <Box sx={{ background: "#fff" }} p={5}>
+            <Box sx={{ background: "#fff" }} p={5} mt={3}>
               <DoubleButton
                 bounty={`${question?.bountyAmount.toLocaleString()} sats ($${(
                   question?.bountyAmount * USDPerSat
@@ -111,50 +91,40 @@ export default function Page() {
                 }}
               />
               <Divider />
-              <Box
-                display={"flex"}
-                flexDirection={"row"}
-                justifyContent={"space-between"}
-              >
-                <Box flex={1}>
-                  <Box>
-                    <Box mt={4} mb={4}>
-                      <Typography sx={{ fontWeight: "bold" }} mb={3}>
-                        Question
-                      </Typography>
-                      <Typography whiteSpace={"break-spaces"}>
-                        {question?.content}
-                      </Typography>
-                    </Box>
-                    <Divider />
-                  </Box>
-
-                  {question.type === "illness" && (
-                    <>
-                      <Box>
-                        <Box mt={4} mb={4}>
-                          <Typography sx={{ fontWeight: "bold" }} mb={3}>
-                            Chief Complaint
-                          </Typography>
-                          <Typography whiteSpace={"break-spaces"}>
-                            {question?.chiefComplaint}
-                          </Typography>
-                        </Box>
-                        <Divider />
-                      </Box>
-                      <Box>
-                        <Box mt={4} mb={4} sx={{ opacity: 0.3 }}>
-                          <Typography sx={{ fontWeight: "bold" }} mb={3}>
-                            Medical History
-                          </Typography>
-                        </Box>
-                        <Divider />
-                      </Box>
-                    </>
-                  )}
+              <Box mt={4} mb={4}>
+                <Typography sx={{ fontWeight: "bold" }} mb={3}>
+                  Question
+                </Typography>
+                <Box mb={3}>
+                  <Typography mb={1} color={"#8E8E93"}>
+                    History of your present illness
+                  </Typography>
+                  <Typography whiteSpace={"break-spaces"}>
+                    {question?.content}
+                  </Typography>
                 </Box>
-                <PatientInfo />
+                {!!question?.currentMedication && (
+                  <Box mb={3}>
+                    <Typography mb={1} color={"#8E8E93"}>
+                      Current medications
+                    </Typography>
+                    <Typography whiteSpace={"break-spaces"}>
+                      {question?.currentMedication}
+                    </Typography>
+                  </Box>
+                )}
+                {!!question?.ageSexEthnicity && (
+                  <Box>
+                    <Typography mb={1} color={"#8E8E93"}>
+                      Age, Sex and Ethnicity
+                    </Typography>
+                    <Typography whiteSpace={"break-spaces"}>
+                      {question?.ageSexEthnicity}
+                    </Typography>
+                  </Box>
+                )}
               </Box>
+              <Divider />
               {question.type === "illness" && (
                 <Typography
                   variant="h5"
