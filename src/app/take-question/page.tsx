@@ -49,7 +49,10 @@ export default function Page(props: any) {
         }
         setQuestionIndex(questionIndex + 1);
       })
-      .catch((err) => alert(err.message))
+      .catch((err) => {
+        alert("FETCH QUESTION ERROR:" + err.message);
+        console.log("ERROR>>>>>>>>>>>>>>>>>>", err);
+      })
       .finally(() => setLoading(false));
   };
 
