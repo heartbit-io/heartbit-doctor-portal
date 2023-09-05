@@ -42,13 +42,10 @@ export default function Page() {
       .then((res) => {
         if (res?.success && res?.statusCode === 200) {
           setQuestion(res.data);
-        } else {
-          alert(res.data.message);
+          setQuestionIndex(questionIndex + 1);
         }
-        setQuestionIndex(questionIndex + 1);
       })
       .catch((err) => {
-        alert("FETCH QUESTION ERROR:" + err.message);
         console.log("ERROR>>>>>>>>>>>>>>>>>>", err);
       })
       .finally(() => {
