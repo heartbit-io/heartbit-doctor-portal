@@ -7,7 +7,7 @@ import { useAppSelector } from "`@/hooks/hooks`";
 import { styled } from "styled-components";
 
 // components
-import { DoubleButton, NavBar, EmptyQuestion, Loading } from "`@/components`";
+import { DoubleButton, EmptyQuestion, Loading, Layout } from "`@/components`";
 
 // apis
 import { assignQuestion, getQuestion } from "`@/apis/questionApi`";
@@ -75,8 +75,7 @@ export default function Page() {
   };
 
   return (
-    <Wrapper>
-      <NavBar />
+    <Layout>
       {loading && !question ? (
         <Loading />
       ) : !question ? (
@@ -125,7 +124,7 @@ export default function Page() {
         </Container>
       )}
       {showSpinner && <Loading />}
-    </Wrapper>
+    </Layout>
   );
 }
 
