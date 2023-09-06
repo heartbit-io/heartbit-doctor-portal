@@ -57,7 +57,8 @@ export default function Page() {
             <ScrollContainer>
               {answers?.map((el) => (
                 <ClickableRow
-                  onClick={() => router.push(`/my-answers/${el.id}`)}
+                  key={el?.id}
+                  onClick={() => router.push(`/my-answers/${el?.id}`)}
                 >
                   <ColumnWrapper>
                     <QuestionTitle>{el?.content}</QuestionTitle>
