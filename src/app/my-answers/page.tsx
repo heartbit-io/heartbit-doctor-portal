@@ -1,21 +1,14 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { EmptyMyAnswers, Loading, NavBar } from "`@/components`";
-import {
-  Box,
-  Container,
-  Fade,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
-} from "@mui/material";
-import { getMyAnswers } from "`@/apis/questionApi`";
+import { styled } from "styled-components";
 import moment from "moment";
 import { useRouter } from "next/navigation";
+
+// components
+import { EmptyMyAnswers, Layout, Loading } from "`@/components`";
+
+// apis
+import { getMyAnswers } from "`@/apis/questionApi`";
 import { getBtcRates } from "`@/apis/coinApi`";
 
 export default function Page() {
@@ -44,115 +37,152 @@ export default function Page() {
       .finally(() => setLoading(false));
   };
 
-  if (loading) return <Loading />;
-
   return (
-    <Fade in={!loading} timeout={700}>
-      <Box component="div" height={"100vh"} style={{ overflow: "hidden" }}>
-        <NavBar />
-        {answers.length === 0 ? (
-          <EmptyMyAnswers />
-        ) : (
-          <Container maxWidth={false} component="div">
-            <Typography variant="h3" mt={5} mb={5} sx={{ fontWeight: "bold" }}>
-              My Answers
-            </Typography>
-
-            <TableContainer
-              sx={{
-                background: "#fff",
-                borderRadius: 2,
-              }}
-            >
-              <Table
-                stickyHeader
-                sx={{ minWidth: 650 }}
-                aria-label="simple table"
-              >
-                <Box
-                  component="div"
-                  height={"75vh"}
-                  style={{ overflow: "scroll" }}
+    <Layout>
+      {loading ? (
+        <Loading />
+      ) : answers.length === 0 ? (
+        <EmptyMyAnswers />
+      ) : (
+        <InnerWrapper>
+          <Title>My Answers</Title>
+          <Container>
+            <RowWrapper>
+              <Subtitle>Question</Subtitle>
+              <RightContainer>
+                <Subtitle style={{ width: 120 }}>Bounty</Subtitle>
+                <Subtitle style={{ width: 120, marginLeft: 8 }}>Date</Subtitle>
+              </RightContainer>
+            </RowWrapper>
+            <ScrollContainer>
+              {[
+                ...answers,
+                ...answers,
+                ...answers,
+                ...answers,
+                ...answers,
+              ]?.map((el) => (
+                <ClickableRow
+                  onClick={() => router.push(`/my-answers/${el.id}`)}
                 >
-                  <TableHead>
-                    <TableRow>
-                      <TableCell sx={{ color: "#8E8E93" }}>Questions</TableCell>
-                      <TableCell sx={{ color: "#8E8E93" }} align="right">
-                        Bounty
-                      </TableCell>
-                      <TableCell sx={{ color: "#8E8E93" }} align="right">
-                        Date
-                      </TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody sx={{ overflow: "hidden" }}>
-                    {answers?.map((el) => (
-                      <TableRow
-                        key={el?.id}
-                        sx={{
-                          "&:last-child td, &:last-child th": { border: 0 },
-                          cursor: "pointer",
-                        }}
-                        onClick={() => router.push(`/my-answers/${el.id}`)}
-                      >
-                        <TableCell
-                          component="th"
-                          scope="row"
-                          sx={{ width: "100%" }}
-                        >
-                          <Typography variant="subtitle1" fontWeight="bold">
-                            {el?.title}
-                          </Typography>
-                          <Typography
-                            variant="subtitle1"
-                            sx={{
-                              display: "-webkit-box",
-                              overflow: "hidden",
-                              WebkitBoxOrient: "vertical",
-                              WebkitLineClamp: 1,
-                            }}
-                          >
-                            {el?.content}
-                          </Typography>
-                        </TableCell>
-                        <TableCell align="right">
-                          <Box
-                            display={"flex"}
-                            flexDirection={"column"}
-                            justifyContent={"center"}
-                            alignItems={"center"}
-                          >
-                            <Typography variant="body2" whiteSpace={"nowrap"}>
-                              {el?.bountyAmount.toLocaleString()} sats
-                            </Typography>
-                            <Typography
-                              variant="caption"
-                              color={"#8E8E93"}
-                              whiteSpace={"nowrap"}
-                            >
-                              $
-                              {(
-                                Number(el?.bountyAmount) * USDPerSat
-                              ).toLocaleString(undefined, {
-                                maximumFractionDigits: 2,
-                              })}
-                            </Typography>
-                          </Box>
-                        </TableCell>
-                        <TableCell align="right">
-                          <Typography variant="body2" whiteSpace={"nowrap"}>
-                            {moment(el?.createdAt).format("D MMM YYYY")}
-                          </Typography>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Box>
-              </Table>
-            </TableContainer>
+                  <ColumnWrapper>
+                    <QuestionTitle>{el?.content}</QuestionTitle>
+                    <Answer>{el?.content}</Answer>
+                  </ColumnWrapper>
+                  <RightContainer>
+                    <ColumnWrapper>
+                      <Bounty>{el?.bountyAmount.toLocaleString()} sats</Bounty>
+                      <BountyDollar>
+                        $
+                        {(Number(el?.bountyAmount) * USDPerSat).toLocaleString(
+                          undefined,
+                          {
+                            maximumFractionDigits: 2,
+                          }
+                        )}
+                      </BountyDollar>
+                    </ColumnWrapper>
+                    <Date>{moment(el?.createdAt).format("D MMM YYYY")}</Date>
+                  </RightContainer>
+                </ClickableRow>
+              ))}
+            </ScrollContainer>
           </Container>
-        )}
-      </Box>
-    </Fade>
+        </InnerWrapper>
+      )}
+    </Layout>
   );
 }
+
+const InnerWrapper = styled.div`
+  position: fixed;
+  height: 100%;
+  width: 100%;
+`;
+
+const Title = styled.p`
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 41px;
+  margin: 32px 40px;
+`;
+
+const Container = styled.div`
+  max-height: calc(100vh - 210px);
+  background-color: #fff;
+  border-radius: 12px;
+  margin: 0 40px 40px;
+  overflow: scroll;
+`;
+
+const ScrollContainer = styled.div``;
+
+const RowWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 20px 32px;
+`;
+
+const ClickableRow = styled(RowWrapper)`
+  border-top: 1px solid #e5e5ea;
+  cursor: pointer;
+`;
+
+const RightContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
+
+const Subtitle = styled.p`
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 20px;
+  color: #8e8e93;
+  text-align: center;
+`;
+
+const ColumnWrapper = styled.div``;
+
+const QuestionTitle = styled.p`
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 22px;
+  color: #1c1c1e;
+`;
+
+const Answer = styled.p`
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 22px;
+  color: #3a3a3c;
+`;
+
+const Bounty = styled.p`
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 20px;
+  color: #3a3a3c;
+  width: 120px;
+  text-align: center;
+`;
+
+const BountyDollar = styled.p`
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  color: #8e8e93;
+  width: 120px;
+  text-align: center;
+`;
+
+const Date = styled.p`
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 20px;
+  color: #3a3a3c;
+  width: 120px;
+  text-align: center;
+  margin-left: 8px;
+`;
