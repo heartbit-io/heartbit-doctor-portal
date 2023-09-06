@@ -55,13 +55,7 @@ export default function Page() {
               </RightContainer>
             </RowWrapper>
             <ScrollContainer>
-              {[
-                ...answers,
-                ...answers,
-                ...answers,
-                ...answers,
-                ...answers,
-              ]?.map((el) => (
+              {answers?.map((el) => (
                 <ClickableRow
                   onClick={() => router.push(`/my-answers/${el.id}`)}
                 >
@@ -108,7 +102,7 @@ const Title = styled.p`
 `;
 
 const Container = styled.div`
-  max-height: calc(100vh - 210px);
+  height: calc(100vh - 210px);
   background-color: #fff;
   border-radius: 12px;
   margin: 0 40px 40px;
@@ -150,6 +144,10 @@ const QuestionTitle = styled.p`
   font-weight: 600;
   line-height: 22px;
   color: #1c1c1e;
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
 `;
 
 const Answer = styled.p`
@@ -157,6 +155,10 @@ const Answer = styled.p`
   font-weight: 400;
   line-height: 22px;
   color: #3a3a3c;
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
 `;
 
 const Bounty = styled.p`
