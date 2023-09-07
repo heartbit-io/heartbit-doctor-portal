@@ -80,7 +80,7 @@ export default function Page(props: any) {
     cancelQuestion({ doctorId: userData.id, questionId: question.id })
       .then((res) => {
         if (res?.success && res?.statusCode === 200) {
-          router.back();
+          window.history.back();
         } else {
           console.log("Cancel question Error: ", res);
         }
