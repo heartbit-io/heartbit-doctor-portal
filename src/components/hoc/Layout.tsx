@@ -8,6 +8,7 @@ const Layout = ({ children }: any) => {
   return (
     <Wrapper>
       <NavBar />
+      <Space />
       {children}
     </Wrapper>
   );
@@ -16,3 +17,6 @@ const Layout = ({ children }: any) => {
 export default Layout;
 
 const Wrapper = styled.div``;
+const Space = styled.div`
+  height: 80px;
+`;
