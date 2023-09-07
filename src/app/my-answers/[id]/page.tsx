@@ -1,19 +1,12 @@
 "use client";
-import {
-  Box,
-  Fade,
-  Typography,
-  Container,
-  Divider,
-  Stack,
-} from "@mui/material";
+import { Box, Typography, Container, Divider, Stack } from "@mui/material";
 import { getBtcRates } from "`@/apis/coinApi`";
 import { getAnswerDetails } from "`@/apis/questionApi`";
 import {
   BackButton,
   DoubleButton,
+  Layout,
   Loading,
-  NavBar,
   PatientInfo,
 } from "`@/components`";
 import React, { useEffect, useState } from "react";
@@ -54,11 +47,11 @@ const Page = ({ params }: Props) => {
     );
   }, [params.id]);
 
-  if (loading) return <Loading />;
   return (
-    <Fade in={!loading} timeout={700}>
-      <Box>
-        <NavBar />
+    <Layout>
+      {loading ? (
+        <Loading />
+      ) : (
         <Container maxWidth={false}>
           <BackButton />
           <Typography
@@ -118,8 +111,8 @@ const Page = ({ params }: Props) => {
             </Box>
           </Box>
         </Container>
-      </Box>
-    </Fade>
+      )}
+    </Layout>
   );
 };
 

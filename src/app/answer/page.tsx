@@ -48,10 +48,10 @@ export default function Page(props: any) {
           alert(err.message);
           router.back();
         });
+      getBtcRates().then((res) =>
+        setUSDPerSat(res.data?.customSatoshi as number)
+      );
     }
-    getBtcRates().then((res) =>
-      setUSDPerSat(res.data?.customSatoshi as number)
-    );
   }, [questionId, userData]);
 
   const confirmHandler = async () => {
