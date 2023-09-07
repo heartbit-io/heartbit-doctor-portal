@@ -1,107 +1,109 @@
 "use client";
-import * as React from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
-import Button from "@mui/material/Button";
-import Tooltip from "@mui/material/Tooltip";
-import MenuItem from "@mui/material/MenuItem";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "`@/firebase`";
-import { Link } from "@mui/material";
-
-const settings = ["Sign-out"];
+import { Link, Menu } from "@mui/material";
+import { styled } from "styled-components";
 
 function NavBar() {
   const router = useRouter();
   const [user] = useAuthState(auth);
-  const [menuVisible, toggleMenu] = React.useState(false);
+  const [menuVisible, toggleMenu] = useState(false);
 
   return (
-    <AppBar
-      position="static"
-      elevation={0}
-      sx={{ background: "#fff", padding: "0 40px" }}
-    >
-      <Toolbar disableGutters>
-        <Link href="/take-question">
-          <img src="/img/logo.svg" />
-        </Link>
-        <Box
-          sx={{
-            display: "flex",
-            flexGrow: 1,
-            justifyContent: "center",
-            alignItems: "center",
+    <Wrapper>
+      <Link href="/take-question" style={{ marginLeft: 40 }}>
+        <Image src="/img/logo.svg" />
+      </Link>
+      <CenterWrapper>
+        <LinkText href="/take-question">Take Questions</LinkText>
+        <Space />
+        <LinkText href="/my-answers">My Answers</LinkText>
+      </CenterWrapper>
+      <Btn onClick={() => toggleMenu(true)}>
+        <BtnText>{user?.email}</BtnText>
+      </Btn>
+      <Menu
+        sx={{ mt: "45px" }}
+        id="menu-appbar"
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+        keepMounted
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+        open={menuVisible}
+        onClose={() => toggleMenu(false)}
+        PaperProps={{
+          style: {
+            backgroundColor: "transparent",
+            boxShadow: "none",
+          },
+        }}
+      >
+        <Btn
+          style={{ minWidth: "unset" }}
+          onClick={() => {
+            router.push("/sign-in");
+            auth.signOut();
+            localStorage.clear();
           }}
         >
-          <Button
-            onClick={() => router.push("/take-question")}
-            sx={{
-              color: "#3A3A3C",
-              fontWeight: "bold",
-            }}
-          >
-            Take Questions
-          </Button>
-          <Button
-            onClick={() => router.push("/my-answers")}
-            sx={{
-              color: "#3A3A3C",
-              fontWeight: "bold",
-            }}
-          >
-            My Answers
-          </Button>
-        </Box>
-        <Box>
-          <Tooltip title="Sign-out">
-            <Button
-              sx={{
-                background: "white",
-                color: "#3A3A3C",
-                border: "1px solid #3A3A3C",
-                borderRadius: 14,
-                textTransform: "lowercase",
-              }}
-              size="small"
-              variant="outlined"
-              onClick={() => toggleMenu(true)}
-            >
-              {user?.email}
-            </Button>
-          </Tooltip>
-          <Menu
-            sx={{ mt: "45px" }}
-            id="menu-appbar"
-            anchorOrigin={{
-              vertical: "top",
-              horizontal: "right",
-            }}
-            keepMounted
-            transformOrigin={{
-              vertical: "top",
-              horizontal: "right",
-            }}
-            open={menuVisible}
-            onClose={() => toggleMenu(false)}
-          >
-            <MenuItem
-              onClick={() => {
-                router.push("/sign-in");
-                auth.signOut();
-                localStorage.clear();
-              }}
-            >
-              <Typography textAlign="center">Sign out</Typography>
-            </MenuItem>
-          </Menu>
-        </Box>
-      </Toolbar>
-    </AppBar>
+          <BtnText>Sign Out</BtnText>
+        </Btn>
+      </Menu>
+    </Wrapper>
   );
 }
 export default NavBar;
+
+const Wrapper = styled.div`
+  height: 80px;
+  width: 100%;
+  background-color: #fff;
+  position: fixed;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
+
+const Image = styled.img``;
+
+const CenterWrapper = styled.div`
+  display: flex;
+  flex: 1;
+  justify-content: center;
+`;
+
+const LinkText = styled(Link)`
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 22px;
+  color: #3a3a3c;
+  text-decoration: none;
+`;
+
+const Btn = styled.div`
+  border: 0.5px solid #8e8e93;
+  border-radius: 14px;
+  padding: 12px 20px;
+  margin-right: 40px;
+  cursor: pointer;
+  min-width: 150px;
+  min-height: 44px;
+  background-color: #fff;
+`;
+
+const BtnText = styled.p`
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 20px;
+`;
+
+const Space = styled.div`
+  width: 32px;
+`;
