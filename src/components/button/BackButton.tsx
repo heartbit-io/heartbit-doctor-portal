@@ -1,22 +1,32 @@
-import { Stack, Typography } from "@mui/material";
-import { useRouter } from "next/navigation";
 import React from "react";
+import { styled } from "styled-components";
 
 const BackButton = () => {
-  const router = useRouter();
   return (
-    <Stack
-      flexDirection={"row"}
-      mt={3}
-      onClick={() => router.back()}
-      sx={{ cursor: "pointer" }}
-    >
-      <img src={"/img/chevronLeft.svg"} />
-      <Typography variant="body1" color={"#FF2D55"} ml={1}>
-        Back to the list
-      </Typography>
-    </Stack>
+    <Wrapper onClick={() => window.history.back()}>
+      <Image src={"/img/chevronLeft.svg"} />
+      <Text>Back to the list</Text>
+    </Wrapper>
   );
 };
 
 export default BackButton;
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 26px 40px;
+  cursor: pointer;
+`;
+
+const Image = styled.img`
+  margin-right: 5px;
+`;
+
+const Text = styled.p`
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 22px;
+  color: #ff2d55;
+`;
