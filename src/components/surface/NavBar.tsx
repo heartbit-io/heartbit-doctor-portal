@@ -69,6 +69,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  z-index: 100;
 `;
 
 const Image = styled.img``;
