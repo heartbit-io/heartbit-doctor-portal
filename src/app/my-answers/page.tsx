@@ -62,7 +62,7 @@ export default function Page() {
                 >
                   <ColumnWrapper>
                     <QuestionTitle>{el?.content}</QuestionTitle>
-                    <Answer>{el?.content}</Answer>
+                    <Answer>{el?.doctorNote}</Answer>
                   </ColumnWrapper>
                   <RightContainer>
                     <ColumnWrapper>
@@ -103,7 +103,7 @@ const Title = styled.p`
 `;
 
 const Container = styled.div`
-  height: calc(100vh - 210px);
+  height: calc(100vh - 225px);
   background-color: #fff;
   border-radius: 12px;
   margin: 0 40px 40px;
