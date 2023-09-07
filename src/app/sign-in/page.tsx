@@ -23,7 +23,7 @@ const Page = () => {
     setLoading(true);
     e.preventDefault();
     sendSignInLinkToEmail(auth, email, {
-      url: "https://heartbit-doctor-portal-git-develop-heartbit-io.vercel.app/sign-in",
+      url: "https://doctor.heartbit.io/",
       handleCodeInApp: true,
     })
       .then(() => {
