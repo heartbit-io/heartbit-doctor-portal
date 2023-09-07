@@ -52,7 +52,9 @@ const Page = () => {
           {answers?.map((el) => (
             <ClickableRow
               key={el?.id}
-              onClick={() => router.push(`/my-answers/${el?.id}`)}
+              onClick={() => {
+                location.href = `/dashboard/my-answers/${el?.id}`;
+              }}
             >
               <ColumnWrapper>
                 <QuestionTitle>{el?.content}</QuestionTitle>
@@ -98,6 +100,7 @@ const Title = styled.p`
 `;
 
 const Container = styled.div`
+  position: relative;
   height: calc(100vh - 225px);
   background-color: #fff;
   border-radius: 12px;
