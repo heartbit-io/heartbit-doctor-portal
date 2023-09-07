@@ -1,5 +1,5 @@
-import { Layout } from "`@/components`";
 import React from "react";
+import { Layout } from "`@/components`";
 
 type Props = {
   children: React.ReactNode;

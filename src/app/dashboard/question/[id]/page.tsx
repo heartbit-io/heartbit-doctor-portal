@@ -76,7 +76,7 @@ const Page = ({ params }: Props) => {
       status: "done",
     })
       .then((res) => router.replace("/take-question"))
-      .catch((err) => {})
+      .catch((err) => console.log("Reply error: ", err))
       .finally(() => setLoading(false));
   };
 

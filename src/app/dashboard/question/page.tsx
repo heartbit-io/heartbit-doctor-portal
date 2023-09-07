@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { Divider } from "@mui/material";
-import { useRouter } from "next/navigation";
 import { useAppSelector } from "`@/hooks/hooks`";
 import { styled } from "styled-components";
 
@@ -14,7 +13,6 @@ import { assignQuestion, getQuestion } from "`@/apis/questionApi`";
 import { getBtcRates } from "`@/apis/coinApi`";
 
 const Page = () => {
-  const router = useRouter();
   const { userData } = useAppSelector((state) => state.user);
   const [question, setQuestion] = useState<any>();
   const [loading, setLoading] = useState(true);
@@ -44,7 +42,7 @@ const Page = () => {
           setQuestionIndex(questionIndex + 1);
         }
       })
-      .catch((err) => console.log("ERROR>>>>>>>>>>>>>>>>>>", err))
+      .catch((err) => console.log("Fetch question error:", err))
       .finally(() => setLoading(false));
   };
 
