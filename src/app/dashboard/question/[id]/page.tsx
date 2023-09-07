@@ -75,7 +75,7 @@ const Page = ({ params }: Props) => {
       doctorNote: doctorNote,
       status: "done",
     })
-      .then((res) => router.replace("/take-question"))
+      .then((res) => router.replace("/dashboard/question"))
       .catch((err) => console.log("Reply error: ", err))
       .finally(() => setLoading(false));
   };
