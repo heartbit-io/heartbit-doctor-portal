@@ -53,14 +53,12 @@ const Page = () => {
     assignQuestion({ doctorId: userData.id, questionId: question.id })
       .then((res) => {
         if (res?.success && res?.statusCode === 200) {
-          router.push(`/dashboard/question/${question?.id}`);
+          location.href = `/dashboard/question/${question?.id}`;
         } else if (res.response.data.statusCode === 409) {
           alert(
             "Please cancel currently taken question to take another question."
           );
-          router.push(
-            `/dashboard/question/${res.response.data.data.questionId}`
-          );
+          location.href = `/dashboard/question/${res.response.data.data.questionId}`;
         }
       })
       .catch((err) => alert(err.message))
