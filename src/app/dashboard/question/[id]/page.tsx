@@ -23,7 +23,7 @@ type Props = {
   };
 };
 
-const page = ({ params }: Props) => {
+const Page = ({ params }: Props) => {
   const { userData } = useAppSelector((state) => state.user);
   const router = useRouter();
   const [loading, setLoading] = useState(true);
@@ -154,7 +154,7 @@ const page = ({ params }: Props) => {
   );
 };
 
-export default page;
+export default Page;
 
 const Wrapper = styled.div`
   position: relative;

@@ -13,7 +13,7 @@ import { ContainerLoading, DoubleButton } from "`@/components`";
 import { assignQuestion, getQuestion } from "`@/apis/questionApi`";
 import { getBtcRates } from "`@/apis/coinApi`";
 
-const page = () => {
+const Page = () => {
   const router = useRouter();
   const { userData } = useAppSelector((state) => state.user);
   const [question, setQuestion] = useState<any>();
@@ -113,7 +113,7 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
 
 const Wrapper = styled.div`
   position: relative;
