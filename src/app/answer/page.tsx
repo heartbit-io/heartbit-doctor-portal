@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { styled } from "styled-components";
 
 // components
-import { DoubleButton, NavBar, AnswerInput, Loading } from "`@/components`";
+import { DoubleButton, AnswerInput, Loading, Layout } from "`@/components`";
 
 // apis
 import { getBtcRates } from "`@/apis/coinApi`";
@@ -28,30 +28,31 @@ export default function Page(props: any) {
   const [doctorNote, setDoctorNote] = useState("");
 
   useEffect(() => {
-    getQuestionDetails(questionId)
-      .then((res) => {
-        if (res?.success && res?.statusCode === 200) {
-          if (
-            res.data?.assignedDoctorId === userData?.id ||
-            userData?.role === "admin"
-          ) {
-            setQuestion(res.data);
-            setDoctorNote(res.data.aiJsonReply?.doctorNote || "");
-            setLoading(false);
-          } else {
-            router.replace("/take-question");
+    if (questionId && userData) {
+      getQuestionDetails(questionId)
+        .then((res) => {
+          if (res?.success && res?.statusCode === 200) {
+            if (
+              res.data?.assignedDoctorId === userData?.id ||
+              userData?.role === "admin"
+            ) {
+              setQuestion(res.data);
+              setDoctorNote(res.data.aiJsonReply?.doctorNote || "");
+              setLoading(false);
+            } else {
+              router.replace("/take-question");
+            }
           }
-        }
-      })
-      .catch((err) => {
-        alert(err.message);
-        router.back();
-      });
-
+        })
+        .catch((err) => {
+          alert(err.message);
+          router.back();
+        });
+    }
     getBtcRates().then((res) =>
       setUSDPerSat(res.data?.customSatoshi as number)
     );
-  }, [questionId]);
+  }, [questionId, userData]);
 
   const confirmHandler = async () => {
     setAnswering(true);
@@ -89,8 +90,7 @@ export default function Page(props: any) {
 
   const disabled = doctorNote.length < 50;
   return (
-    <Wrapper>
-      <NavBar />
+    <Layout>
       {loading ? (
         <Loading />
       ) : (
@@ -153,11 +153,9 @@ export default function Page(props: any) {
         </Container>
       )}
       {answering && <Loading />}
-    </Wrapper>
+    </Layout>
   );
 }
-
-const Wrapper = styled.div``;
 
 const Container = styled.div`
   border-radius: 12px;

@@ -59,15 +59,12 @@ export default function Page() {
     assignQuestion({ doctorId: userData.id, questionId: question.id })
       .then((res) => {
         if (res?.success && res?.statusCode === 200) {
-          router.push(`/answer?questionId=${question?.id}`);
+          window.location.href = `/answer?questionId=${question?.id}`;
         } else if (res.response.data.statusCode === 409) {
           alert(
             "Please cancel currently taken question to take another question."
           );
-
-          router.push(
-            `/answer?questionId=${res.response.data.data.questionId}`
-          );
+          window.location.href = `/answer?questionId=${res.response.data.data.questionId}`;
         }
       })
       .catch((err) => alert(err.message))
@@ -127,10 +124,6 @@ export default function Page() {
     </Layout>
   );
 }
-
-const Wrapper = styled.div`
-  position: relative;
-`;
 
 const Container = styled.div`
   border-radius: 12px;
