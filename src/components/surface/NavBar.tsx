@@ -84,7 +84,9 @@ const CenterWrapper = styled.div`
   justify-content: center;
 `;
 
-const LinkTextWrapper = styled.div``;
+const LinkTextWrapper = styled.div`
+  cursor: pointer;
+`;
 
 const LinkText = styled.p`
   font-size: 17px;
