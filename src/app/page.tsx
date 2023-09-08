@@ -51,7 +51,7 @@ const Page = () => {
       .then(async (res) => {
         if (res.data.role === "doctor" || res.data.role === "admin") {
           dispatch(setUserData(res.data));
-          router.push("take-question");
+          router.replace("/dashboard/question");
         } else {
           alert("Authentication failed. User is not verified as a doctor");
           router.replace("sign-in");

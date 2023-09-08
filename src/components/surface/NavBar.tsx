@@ -13,13 +13,13 @@ function NavBar() {
 
   return (
     <Wrapper>
-      <Link href="/take-question" style={{ marginLeft: 40 }}>
+      <Link href="/dashboard/question" style={{ marginLeft: 40 }}>
         <Image src="/img/logo.svg" />
       </Link>
       <CenterWrapper>
-        <LinkText href="/take-question">Take Questions</LinkText>
+        <LinkText href="/dashboard/question">Take Questions</LinkText>
         <Space />
-        <LinkText href="/my-answers">My Answers</LinkText>
+        <LinkText href="/dashboard/my-answers">My Answers</LinkText>
       </CenterWrapper>
       <Btn onClick={() => toggleMenu(true)}>
         <BtnText>{user?.email}</BtnText>
