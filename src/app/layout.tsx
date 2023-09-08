@@ -1,13 +1,11 @@
+"use client";
+
 import "./globals.css";
 import { Inter } from "next/font/google";
 import { Providers } from "./provider";
+import StyledComponentsRegistry from "./registry";
 
 const inter = Inter({ subsets: ["latin"] });
-
-export const metadata = {
-  title: "HeartBit doctor's portal",
-  description: "HeartBit doctor's portal",
-};
 
 export default function RootLayout({
   children,
@@ -17,7 +15,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Providers>{children}</Providers>
+        <Providers>
+          <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+        </Providers>
       </body>
     </html>
   );
