@@ -17,9 +17,13 @@ function NavBar() {
         <Image src="/img/logo.svg" />
       </Link>
       <CenterWrapper>
-        <LinkText href="/dashboard/question">Take Questions</LinkText>
+        <LinkTextWrapper onClick={() => router.push("/dashboard/question")}>
+          <LinkText>Take Questions</LinkText>
+        </LinkTextWrapper>
         <Space />
-        <LinkText href="/dashboard/my-answers">My Answers</LinkText>
+        <LinkTextWrapper onClick={() => router.push("/dashboard/my-answers")}>
+          <LinkText>My Answers</LinkText>
+        </LinkTextWrapper>
       </CenterWrapper>
       <Btn onClick={() => toggleMenu(true)}>
         <BtnText>{user?.email}</BtnText>
@@ -80,7 +84,9 @@ const CenterWrapper = styled.div`
   justify-content: center;
 `;
 
-const LinkText = styled.a`
+const LinkTextWrapper = styled.div``;
+
+const LinkText = styled.p`
   font-size: 17px;
   font-weight: 600;
   line-height: 22px;
