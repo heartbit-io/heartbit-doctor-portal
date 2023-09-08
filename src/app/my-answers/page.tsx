@@ -33,7 +33,7 @@ export default function Page() {
           setAnswers(res.data);
         }
       })
-      .catch((err) => {})
+      .catch((err) => console.log("Fetch my answers error:", err))
       .finally(() => setLoading(false));
   };
 
