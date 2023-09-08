@@ -80,7 +80,7 @@ const CenterWrapper = styled.div`
   justify-content: center;
 `;
 
-const LinkText = styled(Link)`
+const LinkText = styled.a`
   font-size: 17px;
   font-weight: 600;
   line-height: 22px;
